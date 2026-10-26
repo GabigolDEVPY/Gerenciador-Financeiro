@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Minhas Transações</title>
+</head>
+<body class="min-h-screen bg-base-200">
+
+    <!-- Navbar -->
+    <div class="navbar bg-base-100 shadow-sm px-4 lg:px-8">
+        <div class="navbar-start">
+            <a href="#" class="text-xl font-bold text-primary">FinControl</a>
+        </div>
+        <div class="navbar-center hidden md:flex">
+            <ul class="menu menu-horizontal px-1">
+                <li><a href="#" class="active">Transações</a></li>
+                <li><a href="#">Relatórios</a></li>
+                <li><a href="#">Categorias</a></li>
+            </ul>
+        </div>
+        <div class="navbar-end gap-2">
+            <div class="dropdown dropdown-end">
+                <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar placeholder">
+                    <div class="bg-primary text-primary-content rounded-full w-10"><span>G</span></div>
+                </div>
+                <ul tabindex="0" class="menu dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow">
+                    <li><a href="#">Meu perfil</a></li>
+                    <li><a href="#">Configurações</a></li>
+                    <li><a href="#">Sair</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conteúdo principal -->
+    <main class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+            <div>
+                <h1 class="text-2xl sm:text-3xl font-bold">Minhas transações</h1>
+                <p class="text-base-content/60 mt-1">Acompanhe suas receitas e despesas.</p>
+            </div>
+            <a href="#nova-transacao" class="btn btn-primary">+ Nova transação</a>
+        </div>
+
+        <!-- Resumo financeiro -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+            <div class="card bg-base-100 shadow-sm">
+                <div class="card-body p-5">
+                    <p class="text-sm text-base-content/60">Saldo das transações</p>
+                    <h2 class="text-2xl font-bold">R$ 3.250,00</h2>
+                    <p class="text-xs text-base-content/50">Receitas menos despesas</p>
+                </div>
+            </div>
+            <div class="card bg-base-100 shadow-sm">
+                <div class="card-body p-5">
+                    <p class="text-sm text-base-content/60">Total de receitas</p>
+                    <h2 class="text-2xl font-bold text-success">R$ 5.000,00</h2>
+                    <p class="text-xs text-base-content/50">Entradas registradas</p>
+                </div>
+            </div>
+            <div class="card bg-base-100 shadow-sm">
+                <div class="card-body p-5">
+                    <p class="text-sm text-base-content/60">Total de despesas</p>
+                    <h2 class="text-2xl font-bold text-error">R$ 1.750,00</h2>
+                    <p class="text-xs text-base-content/50">Saídas registradas</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Formulário de cadastro -->
+        <section id="nova-transacao" class="card bg-base-100 shadow-sm mb-8">
+            <div class="card-body p-5 sm:p-6">
+                <h2 class="card-title text-xl mb-1">Cadastrar transação</h2>
+                <p class="text-sm text-base-content/60 mb-4">Preencha os dados da sua receita ou despesa.</p>
+
+                <form action="#" method="post" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="form-control">
+                            <label for="title" class="label"><span class="label-text font-semibold">Título</span></label>
+                            <input id="title" name="title" type="text" maxlength="50" placeholder="Ex.: Conta de energia" class="input w-full" required/>
+                        </div>
+
+                        <div class="form-control">
+                            <label for="amount" class="label"><span class="label-text font-semibold">Valor (R$)</span></label>
+                            <input id="amount" name="amount" type="number" min="0" step="0.01" placeholder="0,00" class="input w-full" required/>
+                        </div>
+
+                        <div class="form-control">
+                            <label for="type" class="label"><span class="label-text font-semibold">Tipo de transação</span></label>
+                            <select id="type" name="type" class="select w-full" required>
+                                <option value="" disabled selected>Selecione o tipo</option>
+                                <option value="credit">Receita (Credit)</option>
+                                <option value="debit">Despesa (Debit)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-control">
+                            <label for="description" class="label"><span class="label-text font-semibold">Descrição</span></label>
+                            <input id="description" name="description" type="text" maxlength="255" placeholder="Detalhes opcionais" class="input w-full"/>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end pt-2">
+                        <button type="reset" class="btn btn-ghost">Limpar</button>
+                        <button type="submit" class="btn btn-primary">Cadastrar transação</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Lista de transações -->
+        <section class="card bg-base-100 shadow-sm">
+            <div class="card-body p-0">
+                <div class="p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <div>
+                        <h2 class="card-title text-xl">Histórico</h2>
+                        <p class="text-sm text-base-content/60">Suas transações recentes.</p>
+                    </div>
+                    <input type="search" placeholder="Buscar transação..." class="input w-full sm:w-64"/>
+                </div>
+
+                <!-- Tabela para telas maiores -->
+                <div class="hidden md:block overflow-x-auto">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Descrição</th>
+                                <th>Data</th>
+                                <th>Tipo</th>
+                                <th class="text-right">Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-semibold">Salário</td>
+                                <td class="text-base-content/60">Salário mensal</td>
+                                <td>25/10/2026</td>
+                                <td><span class="badge badge-success badge-outline">Receita</span></td>
+                                <td class="text-right font-semibold text-success">+ R$ 3.000,00</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">Conta de energia</td>
+                                <td class="text-base-content/60">Conta mensal</td>
+                                <td>24/10/2026</td>
+                                <td><span class="badge badge-error badge-outline">Despesa</span></td>
+                                <td class="text-right font-semibold text-error">- R$ 180,00</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">Freelance</td>
+                                <td class="text-base-content/60">Serviço de desenvolvimento</td>
+                                <td>23/10/2026</td>
+                                <td><span class="badge badge-success badge-outline">Receita</span></td>
+                                <td class="text-right font-semibold text-success">+ R$ 2.000,00</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">Internet</td>
+                                <td class="text-base-content/60">Plano mensal</td>
+                                <td>22/10/2026</td>
+                                <td><span class="badge badge-error badge-outline">Despesa</span></td>
+                                <td class="text-right font-semibold text-error">- R$ 120,00</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">Supermercado</td>
+                                <td class="text-base-content/60">Compras da semana</td>
+                                <td>21/10/2026</td>
+                                <td><span class="badge badge-error badge-outline">Despesa</span></td>
+                                <td class="text-right font-semibold text-error">- R$ 450,00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Cards para celular -->
+                <div class="md:hidden divide-y divide-base-300">
+                    <article class="p-4">
+                        <div class="flex justify-between items-start gap-3">
+                            <div class="min-w-0">
+                                <h3 class="font-semibold">Salário</h3>
+                                <p class="text-sm text-base-content/60 mt-1">Salário mensal</p>
+                                <p class="text-xs text-base-content/50 mt-2">25/10/2026</p>
+                            </div>
+                            <div class="text-right shrink-0">
+                                <span class="badge badge-success badge-outline">Receita</span>
+                                <p class="font-bold text-success mt-2">+ R$ 3.000,00</p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="p-4">
+                        <div class="flex justify-between items-start gap-3">
+                            <div class="min-w-0">
+                                <h3 class="font-semibold">Conta de energia</h3>
+                                <p class="text-sm text-base-content/60 mt-1">Conta mensal</p>
+                                <p class="text-xs text-base-content/50 mt-2">24/10/2026</p>
+                            </div>
+                            <div class="text-right shrink-0">
+                                <span class="badge badge-error badge-outline">Despesa</span>
+                                <p class="font-bold text-error mt-2">- R$ 180,00</p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="p-4">
+                        <div class="flex justify-between items-start gap-3">
+                            <div class="min-w-0">
+                                <h3 class="font-semibold">Freelance</h3>
+                                <p class="text-sm text-base-content/60 mt-1">Serviço de desenvolvimento</p>
+                                <p class="text-xs text-base-content/50 mt-2">23/10/2026</p>
+                            </div>
+                            <div class="text-right shrink-0">
+                                <span class="badge badge-success badge-outline">Receita</span>
+                                <p class="font-bold text-success mt-2">+ R$ 2.000,00</p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="p-4">
+                        <div class="flex justify-between items-start gap-3">
+                            <div class="min-w-0">
+                                <h3 class="font-semibold">Internet</h3>
+                                <p class="text-sm text-base-content/60 mt-1">Plano mensal</p>
+                                <p class="text-xs text-base-content/50 mt-2">22/10/2026</p>
+                            </div>
+                            <div class="text-right shrink-0">
+                                <span class="badge badge-error badge-outline">Despesa</span>
+                                <p class="font-bold text-error mt-2">- R$ 120,00</p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="p-4">
+                        <div class="flex justify-between items-start gap-3">
+                            <div class="min-w-0">
+                                <h3 class="font-semibold">Supermercado</h3>
+                                <p class="text-sm text-base-content/60 mt-1">Compras da semana</p>
+                                <p class="text-xs text-base-content/50 mt-2">21/10/2026</p>
+                            </div>
+                            <div class="text-right shrink-0">
+                                <span class="badge badge-error badge-outline">Despesa</span>
+                                <p class="font-bold text-error mt-2">- R$ 450,00</p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="p-4 border-t border-base-300 flex justify-between items-center gap-2">
+                    <span class="text-xs sm:text-sm text-base-content/60">Mostrando 5 transações</span>
+                    <div class="join">
+                        <button class="join-item btn btn-sm" disabled>«</button>
+                        <button class="join-item btn btn-sm btn-active">1</button>
+                        <button class="join-item btn btn-sm">2</button>
+                        <button class="join-item btn btn-sm">»</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center text-xs text-base-content/50 py-6">
+            FinControl · Gerenciamento financeiro pessoal
+        </footer>
+    </main>
+
+</body>
+</html>
