@@ -15,7 +15,8 @@
                 <h1 class="text-3xl font-bold">Bem-vindo de volta</h1>
                 <p class="text-base-content/60 mt-2">Entre na sua conta para continuar.</p>
             </div>
-            <form action="" method="POST" class="space-y-5">
+            <form action="{% url 'account:login' %}" method="POST" class="space-y-5">
+                {% csrf_token %}
                 <div>
                     <label for="username" class="label mb-1"><span class="label-text font-semibold">Usuário ou e-mail</span></label>
                     <input id="username" name="username" type="text" placeholder="seu@email.com" class="input w-full" autocomplete="username" required/>
@@ -24,6 +25,7 @@
                     <label for="password" class="label mb-1"><span class="label-text font-semibold">Senha</span></label>
                     <input id="password" name="password" type="password" placeholder="Digite sua senha" class="input w-full" autocomplete="current-password" required/>
                 </div>
+                
                 <div class="flex justify-between items-center">
                     <label class="flex items-center gap-2 cursor-pointer"><input name="remember" type="checkbox" class="checkbox checkbox-primary checkbox-sm"/>Lembrar de mim</label>
                     <a href="#" class="link link-primary text-sm">Esqueceu a senha?</a>

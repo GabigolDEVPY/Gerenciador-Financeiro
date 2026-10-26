@@ -3,8 +3,12 @@ from rest_framework import generics
 from .serializers import TransactionSerializer
 from rest_framework.permissions import IsAuthenticated
 from .models import Transaction
+from django.views.generic import TemplateView
 
-# Create your views here.
+class HomeViewTemplate(TemplateView):
+    template_name = "transactions.html"
+    
+
 class AddTransactionView(generics.CreateAPIView):
     serializer_class = TransactionSerializer
     permission_classes = [IsAuthenticated]

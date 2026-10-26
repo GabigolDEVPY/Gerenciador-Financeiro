@@ -1,6 +1,6 @@
 from django.urls import path
 from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView)
-from .views import RegisterViewTemplate, LoginViewTemplate
+from .views import RegisterViewTemplate, LoginViewTemplate, LogoutView
 from .api_views import AccountRegisterView
 
 app_name = "account"
@@ -9,6 +9,7 @@ urlpatterns = [
     # page routes
     path("login/", LoginViewTemplate.as_view(), name="login"),
     path("register/", RegisterViewTemplate.as_view(), name="register"),
+    path("logout/", LogoutView.as_view(), name="logout"),
     
     # api routes
     path("api/auth/register/", AccountRegisterView.as_view()),
