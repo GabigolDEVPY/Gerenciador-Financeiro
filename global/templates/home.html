@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>FinControl · Dashboard</title>
+    <style>
+        .stat-icon { width: 2.5rem; height: 2.5rem; }
+    </style>
+</head>
+<body class="min-h-screen bg-base-200">
+
+    <!-- Navbar -->
+    <div class="navbar bg-base-100 shadow-sm px-4 lg:px-8 sticky top-0 z-50">
+        <div class="navbar-start">
+            <!-- Botão expandir (mobile) -->
+            <div class="dropdown">
+                <div tabindex="0" role="button" class="btn btn-ghost lg:hidden" aria-label="Abrir menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </div>
+                <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow">
+                    <li><a href="index.html" class="active font-semibold">Dashboard</a></li>
+                    <li><a href="transacoes.html">Lançamentos</a></li>
+                    <li><a href="#">Relatórios</a></li>
+                    <li><a href="#">Categorias</a></li>
+                    <li class="mt-2 border-t border-base-300 pt-2"><a href="{% url 'account:logout' %}">Sair</a></li>
+                </ul>
+            </div>
+            <a href="index.html" class="btn btn-ghost text-xl font-bold text-primary">FinControl</a>
+        </div>
+
+        <!-- Menu desktop -->
+        <div class="navbar-center hidden lg:flex">
+            <ul class="menu menu-horizontal px-1 gap-1">
+                <li><a href="index.html" class="active font-semibold">Dashboard</a></li>
+                <li><a href="transacoes.html">Lançamentos</a></li>
+                <li><a href="#">Relatórios</a></li>
+                <li><a href="#">Categorias</a></li>
+            </ul>
+        </div>
+
+        <div class="navbar-end gap-2">
+            <div class="dropdown dropdown-end">
+                <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar placeholder">
+                    <div class="bg-primary text-primary-content rounded-full w-10">
+                        <span class="text-sm font-semibold">G</span>
+                    </div>
+                </div>
+                <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow">
+                    <li class="menu-title"><span>Minha conta</span></li>
+                    <li><a href="#">Perfil</a></li>
+                    <li><a href="#">Configurações</a></li>
+                    <li><a href="{% url 'account:logout' %}">Sair</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conteúdo principal -->
+    <main class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+
+        <!-- Cabeçalho -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+            <div>
+                <h1 class="text-2xl sm:text-3xl font-bold">Dashboard</h1>
+                <p class="text-base-content/60 mt-1">Visão geral das suas finanças.</p>
+            </div>
+            <a href="transacoes.html#nova-transacao" class="btn btn-primary">+ Nova transação</a>
+        </div>
+
+        <!-- Cards de resumo -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
+            <!-- Saldo -->
+            <div class="card bg-base-100 shadow-sm">
+                <div class="card-body p-5">
+                    <div class="flex items-center justify-between">
+                        <p class="text-sm text-base-content/60">Saldo atual</p>
+                        <div class="bg-primary/10 text-primary rounded-full p-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="stat-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <h2 class="text-2xl font-bold mt-2">R$ 3.250,00</h2>
+                    <p class="text-xs text-success mt-1">+12% em relação ao mês anterior</p>
+                </div>
+            </div>
+
+            <!-- Receitas -->
+            <div class="card bg-base-100 shadow-sm">
+                <div class="card-body p-5">
+                    <div class="flex items-center justify-between">
+                        <p class="text-sm text-base-content/60">Receitas do mês</p>
+                        <div class="bg-success/10 text-success rounded-full p-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="stat-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12" />
+                            </svg>
+                        </div>
+                    </div>
+                    <h2 class="text-2xl font-bold text-success mt-2">R$ 5.000,00</h2>
+                    <p class="text-xs text-base-content/50 mt-1">5 lançamentos de entrada</p>
+                </div>
+            </div>
+
+            <!-- Despesas -->
+            <div class="card bg-base-100 shadow-sm">
+                <div class="card-body p-5">
+                    <div class="flex items-center justify-between">
+                        <p class="text-sm text-base-content/60">Despesas do mês</p>
+                        <div class="bg-error/10 text-error rounded-full p-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="stat-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 13l-5 5m0 0l-5-5m5 5V6" />
+                            </svg>
+                        </div>
+                    </div>
+                    <h2 class="text-2xl font-bold text-error mt-2">R$ 1.750,00</h2>
+                    <p class="text-xs text-base-content/50 mt-1">8 lançamentos de saída</p>
+                </div>
+            </div>
+
+            <!-- Economia -->
+            <div class="card bg-base-100 shadow-sm">
+                <div class="card-body p-5">
+                    <div class="flex items-center justify-between">
+                        <p class="text-sm text-base-content/60">Taxa de economia</p>
+                        <div class="bg-info/10 text-info rounded-full p-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="stat-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                            </svg>
+                        </div>
+                    </div>
+                    <h2 class="text-2xl font-bold text-info mt-2">65%</h2>
+                    <p class="text-xs text-base-content/50 mt-1">Receitas − Despesas</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gráficos e resumo rápido -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+
+            <!-- Resumo por categoria -->
+            <section class="card bg-base-100 shadow-sm lg:col-span-2">
+                <div class="card-body p-5 sm:p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h2 class="card-title text-lg">Despesas por categoria</h2>
+                            <p class="text-sm text-base-content/60">Outubro 2026</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="font-medium">Moradia</span>
+                                <span class="text-base-content/60">R$ 650,00</span>
+                            </div>
+                            <progress class="progress progress-error w-full" value="37" max="100"></progress>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="font-medium">Alimentação</span>
+                                <span class="text-base-content/60">R$ 450,00</span>
+                            </div>
+                            <progress class="progress progress-warning w-full" value="26" max="100"></progress>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="font-medium">Transporte</span>
+                                <span class="text-base-content/60">R$ 280,00</span>
+                            </div>
+                            <progress class="progress progress-info w-full" value="16" max="100"></progress>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="font-medium">Lazer</span>
+                                <span class="text-base-content/60">R$ 220,00</span>
+                            </div>
+                            <progress class="progress progress-success w-full" value="13" max="100"></progress>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="font-medium">Outros</span>
+                                <span class="text-base-content/60">R$ 150,00</span>
+                            </div>
+                            <progress class="progress progress-primary w-full" value="8" max="100"></progress>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Últimos lançamentos -->
+            <section class="card bg-base-100 shadow-sm">
+                <div class="card-body p-5 sm:p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="card-title text-lg">Últimos lançamentos</h2>
+                        <a href="transacoes.html" class="btn btn-ghost btn-sm">Ver todos</a>
+                    </div>
+
+                    <ul class="space-y-3">
+                        <li class="flex items-center justify-between gap-2">
+                            <div class="min-w-0">
+                                <p class="font-medium truncate">Salário</p>
+                                <p class="text-xs text-base-content/50">25/10/2026</p>
+                            </div>
+                            <span class="font-semibold text-success shrink-0">+ R$ 3.000</span>
+                        </li>
+                        <li class="flex items-center justify-between gap-2">
+                            <div class="min-w-0">
+                                <p class="font-medium truncate">Conta de energia</p>
+                                <p class="text-xs text-base-content/50">24/10/2026</p>
+                            </div>
+                            <span class="font-semibold text-error shrink-0">- R$ 180</span>
+                        </li>
+                        <li class="flex items-center justify-between gap-2">
+                            <div class="min-w-0">
+                                <p class="font-medium truncate">Freelance</p>
+                                <p class="text-xs text-base-content/50">23/10/2026</p>
+                            </div>
+                            <span class="font-semibold text-success shrink-0">+ R$ 2.000</span>
+                        </li>
+                        <li class="flex items-center justify-between gap-2">
+                            <div class="min-w-0">
+                                <p class="font-medium truncate">Internet</p>
+                                <p class="text-xs text-base-content/50">22/10/2026</p>
+                            </div>
+                            <span class="font-semibold text-error shrink-0">- R$ 120</span>
+                        </li>
+                        <li class="flex items-center justify-between gap-2">
+                            <div class="min-w-0">
+                                <p class="font-medium truncate">Supermercado</p>
+                                <p class="text-xs text-base-content/50">21/10/2026</p>
+                            </div>
+                            <span class="font-semibold text-error shrink-0">- R$ 450</span>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <!-- Ações rápidas -->
+        <section class="card bg-base-100 shadow-sm mb-8">
+            <div class="card-body p-5 sm:p-6">
+                <h2 class="card-title text-lg mb-4">Ações rápidas</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <a href="transacoes.html#nova-transacao" class="btn btn-outline btn-primary gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                        Nova transação
+                    </a>
+                    <a href="transacoes.html" class="btn btn-outline gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                        Ver histórico
+                    </a>
+                    <a href="#" class="btn btn-outline gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Relatórios
+                    </a>
+                    <a href="#" class="btn btn-outline gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        Configurações
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center text-xs text-base-content/50 py-6">
+            FinControl · Gerenciamento financeiro pessoal
+        </footer>
+    </main>
+
+</body>
+</html>

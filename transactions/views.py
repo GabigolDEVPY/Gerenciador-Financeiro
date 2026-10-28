@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from rest_framework.response import Response
 from .services import TransactionsService
 
-class HomeViewTemplate(TemplateView):
+class TransactionsViewTemplate(TemplateView):
     template_name = "transactions.html"
     
 

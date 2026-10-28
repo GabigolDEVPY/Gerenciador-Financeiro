@@ -1,32 +1,56 @@
-
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css"/>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <title>Minhas Transações</title>
+    <title>FinControl · Lançamentos</title>
 </head>
 <body class="min-h-screen bg-base-200">
 
     <!-- Navbar -->
-    <div class="navbar bg-base-100 shadow-sm px-4 lg:px-8">
+    <div class="navbar bg-base-100 shadow-sm px-4 lg:px-8 sticky top-0 z-50">
         <div class="navbar-start">
-            <a href="#" class="text-xl font-bold text-primary">FinControl</a>
+            <!-- Botão expandir (mobile) -->
+            <div class="dropdown">
+                <div tabindex="0" role="button" class="btn btn-ghost lg:hidden" aria-label="Abrir menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </div>
+                <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow">
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="transacoes.html" class="active font-semibold">Lançamentos</a></li>
+                    <li><a href="#">Relatórios</a></li>
+                    <li><a href="#">Categorias</a></li>
+                    <li class="mt-2 border-t border-base-300 pt-2"><a href="{% url 'account:logout' %}">Sair</a></li>
+                </ul>
+            </div>
+            <a href="index.html" class="btn btn-ghost text-xl font-bold text-primary">FinControl</a>
         </div>
-        <div class="navbar-center hidden md:flex">
-            <ul class="menu menu-horizontal px-1">
-                <li><a href="#" class="active">Transações</a></li>
+
+        <!-- Menu desktop -->
+        <div class="navbar-center hidden lg:flex">
+            <ul class="menu menu-horizontal px-1 gap-1">
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="transacoes.html" class="active font-semibold">Lançamentos</a></li>
                 <li><a href="#">Relatórios</a></li>
+                <li><a href="#">Categorias</a></li>
             </ul>
         </div>
+
         <div class="navbar-end gap-2">
             <div class="dropdown dropdown-end">
                 <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar placeholder">
-                    <div class="bg-primary text-primary-content rounded-full w-10"><span>G</span></div>
+                    <div class="bg-primary text-primary-content rounded-full w-10">
+                        <span class="text-sm font-semibold">G</span>
+                    </div>
                 </div>
-                <ul tabindex="0" class="menu dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow">
+                <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow">
+                    <li class="menu-title"><span>Minha conta</span></li>
+                    <li><a href="#">Perfil</a></li>
+                    <li><a href="#">Configurações</a></li>
                     <li><a href="{% url 'account:logout' %}">Sair</a></li>
                 </ul>
             </div>
@@ -36,12 +60,17 @@
     <!-- Conteúdo principal -->
     <main class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
 
+        <!-- Cabeçalho -->
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
             <div>
-                <h1 class="text-2xl sm:text-3xl font-bold">Minhas transações</h1>
+                <h1 class="text-2xl sm:text-3xl font-bold">Lançamentos</h1>
                 <p class="text-base-content/60 mt-1">Acompanhe suas receitas e despesas.</p>
             </div>
-            <a href="#nova-transacao" class="btn btn-primary">+ Nova transação</a>
+            <!-- Botão abre o modal -->
+            <button type="button" class="btn btn-primary"
+                    onclick="document.getElementById('modal-nova-transacao').showModal()">
+                + Nova transação
+            </button>
         </div>
 
         <!-- Resumo financeiro -->
@@ -69,47 +98,6 @@
             </div>
         </section>
 
-        <!-- Formulário de cadastro -->
-        <section id="nova-transacao" class="card bg-base-100 shadow-sm mb-8">
-            <div class="card-body p-5 sm:p-6">
-                <h2 class="card-title text-xl mb-1">Cadastrar transação</h2>
-                <p class="text-sm text-base-content/60 mb-4">Preencha os dados da sua receita ou despesa.</p>
-
-                <form action="#" method="post" class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="form-control">
-                            <label for="title" class="label"><span class="label-text font-semibold">Título</span></label>
-                            <input id="title" name="title" type="text" maxlength="50" placeholder="Ex.: Conta de energia" class="input w-full" required/>
-                        </div>
-
-                        <div class="form-control">
-                            <label for="amount" class="label"><span class="label-text font-semibold">Valor (R$)</span></label>
-                            <input id="amount" name="amount" type="number" min="0" step="0.01" placeholder="0,00" class="input w-full" required/>
-                        </div>
-
-                        <div class="form-control">
-                            <label for="type" class="label"><span class="label-text font-semibold">Tipo de transação</span></label>
-                            <select id="type" name="type" class="select w-full" required>
-                                <option value="" disabled selected>Selecione o tipo</option>
-                                <option value="credit">Receita (Credit)</option>
-                                <option value="debit">Despesa (Debit)</option>
-                            </select>
-                        </div>
-
-                        <div class="form-control">
-                            <label for="description" class="label"><span class="label-text font-semibold">Descrição</span></label>
-                            <input id="description" name="description" type="text" maxlength="255" placeholder="Detalhes opcionais" class="input w-full"/>
-                        </div>
-                    </div>
-
-                    <div class="flex justify-end pt-2">
-                        <button type="reset" class="btn btn-ghost">Limpar</button>
-                        <button type="submit" class="btn btn-primary">Cadastrar transação</button>
-                    </div>
-                </form>
-            </div>
-        </section>
-
         <!-- Lista de transações -->
         <section class="card bg-base-100 shadow-sm">
             <div class="card-body p-0">
@@ -118,7 +106,8 @@
                         <h2 class="card-title text-xl">Histórico</h2>
                         <p class="text-sm text-base-content/60">Suas transações recentes.</p>
                     </div>
-                    <input type="search" placeholder="Buscar transação..." class="input w-full sm:w-64"/>
+                    <input type="search" placeholder="Buscar transação..."
+                           class="input input-bordered w-full sm:w-64"/>
                 </div>
 
                 <!-- Tabela para telas maiores -->
@@ -242,7 +231,8 @@
                     </article>
                 </div>
 
-                <div class="p-4 border-t border-base-300 flex justify-between items-center gap-2">
+                <!-- Paginação -->
+                <div class="p-4 border-t border-base-300 flex flex-col sm:flex-row justify-between items-center gap-3">
                     <span class="text-xs sm:text-sm text-base-content/60">Mostrando 5 transações</span>
                     <div class="join">
                         <button class="join-item btn btn-sm" disabled>«</button>
@@ -258,6 +248,73 @@
             FinControl · Gerenciamento financeiro pessoal
         </footer>
     </main>
+
+    <!-- ========== MODAL: Nova transação ========== -->
+    <dialog id="modal-nova-transacao" class="modal">
+        <div class="modal-box w-11/12 max-w-2xl">
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" aria-label="Fechar">✕</button>
+            </form>
+
+            <h3 class="font-bold text-xl mb-1">Cadastrar transação</h3>
+            <p class="text-sm text-base-content/60 mb-6">Preencha os dados da sua receita ou despesa.</p>
+
+            <form action="#" method="post" class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="form-control">
+                        <label for="title" class="label">
+                            <span class="label-text font-semibold">Título</span>
+                        </label>
+                        <input id="title" name="title" type="text" maxlength="50"
+                               placeholder="Ex.: Conta de energia"
+                               class="input input-bordered w-full" required/>
+                    </div>
+
+                    <div class="form-control">
+                        <label for="amount" class="label">
+                            <span class="label-text font-semibold">Valor (R$)</span>
+                        </label>
+                        <input id="amount" name="amount" type="number" min="0" step="0.01"
+                               placeholder="0,00"
+                               class="input input-bordered w-full" required/>
+                    </div>
+
+                    <div class="form-control">
+                        <label for="type" class="label">
+                            <span class="label-text font-semibold">Tipo de transação</span>
+                        </label>
+                        <select id="type" name="type" class="select select-bordered w-full" required>
+                            <option value="" disabled selected>Selecione o tipo</option>
+                            <option value="credit">Receita (Credit)</option>
+                            <option value="debit">Despesa (Debit)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-control">
+                        <label for="description" class="label">
+                            <span class="label-text font-semibold">Descrição</span>
+                        </label>
+                        <input id="description" name="description" type="text" maxlength="255"
+                               placeholder="Detalhes opcionais"
+                               class="input input-bordered w-full"/>
+                    </div>
+                </div>
+
+                <div class="modal-action flex-col-reverse sm:flex-row gap-2 mt-6">
+                    <button type="button" class="btn btn-ghost"
+                            onclick="document.getElementById('modal-nova-transacao').close()">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">Cadastrar transação</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Fecha ao clicar fora -->
+        <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+        </form>
+    </dialog>
 
 </body>
 </html>
