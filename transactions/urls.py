@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import AddTransactionView, ReturnTransactionsView, HomeViewTemplate
+from .views import AddTransactionView, ReturnTransactionsSummaryView, HomeViewTemplate
 
 
 app_name = "transactions"
@@ -10,5 +10,5 @@ urlpatterns = [
     
     #api routes
     path("api/add", AddTransactionView.as_view()),
-    path("api/all", ReturnTransactionsView.as_view())
+    path("api/all", ReturnTransactionsSummaryView.as_view())
 ]
