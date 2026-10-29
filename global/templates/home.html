@@ -20,63 +20,48 @@
 
     <!-- Cards de resumo -->
     <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
-        <!-- Saldo -->
         <div class="card bg-base-100 shadow-sm">
             <div class="card-body p-5">
                 <div class="flex items-center justify-between">
                     <p class="text-sm text-base-content/60">Saldo atual</p>
                     <div class="bg-primary/10 text-primary rounded-full p-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="stat-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="stat-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     </div>
                 </div>
                 <h2 class="text-2xl font-bold mt-2">R$ 3.250,00</h2>
                 <p class="text-xs text-success mt-1">+12% em relação ao mês anterior</p>
             </div>
         </div>
-
-        <!-- Receitas -->
         <div class="card bg-base-100 shadow-sm">
             <div class="card-body p-5">
                 <div class="flex items-center justify-between">
                     <p class="text-sm text-base-content/60">Receitas do mês</p>
                     <div class="bg-success/10 text-success rounded-full p-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="stat-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12" />
-                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="stat-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12" /></svg>
                     </div>
                 </div>
                 <h2 class="text-2xl font-bold text-success mt-2">R$ 5.000,00</h2>
                 <p class="text-xs text-base-content/50 mt-1">5 lançamentos de entrada</p>
             </div>
         </div>
-
-        <!-- Despesas -->
         <div class="card bg-base-100 shadow-sm">
             <div class="card-body p-5">
                 <div class="flex items-center justify-between">
                     <p class="text-sm text-base-content/60">Despesas do mês</p>
                     <div class="bg-error/10 text-error rounded-full p-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="stat-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 13l-5 5m0 0l-5-5m5 5V6" />
-                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="stat-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 13l-5 5m0 0l-5-5m5 5V6" /></svg>
                     </div>
                 </div>
                 <h2 class="text-2xl font-bold text-error mt-2">R$ 1.750,00</h2>
                 <p class="text-xs text-base-content/50 mt-1">8 lançamentos de saída</p>
             </div>
         </div>
-
-        <!-- Economia -->
         <div class="card bg-base-100 shadow-sm">
             <div class="card-body p-5">
                 <div class="flex items-center justify-between">
                     <p class="text-sm text-base-content/60">Taxa de economia</p>
                     <div class="bg-info/10 text-info rounded-full p-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="stat-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="stat-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
                     </div>
                 </div>
                 <h2 class="text-2xl font-bold text-info mt-2">65%</h2>
@@ -87,17 +72,24 @@
 
     <!-- Gráficos e resumo rápido -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        <!-- Resumo por categoria -->
+        
+        <!-- Resumo por categoria COM ABAS FUNCIONAIS -->
         <section class="card bg-base-100 shadow-sm lg:col-span-2">
             <div class="card-body p-5 sm:p-6">
-                <div class="flex items-center justify-between mb-4">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3">
                     <div>
-                        <h2 class="card-title text-lg">Despesas por categoria</h2>
+                        <h2 class="card-title text-lg">Fluxo por Categoria</h2>
                         <p class="text-sm text-base-content/60">Outubro 2026</p>
                     </div>
+                    
+                    <div role="tablist" class="tabs tabs-boxed tabs-sm w-fit" id="category-tabs">
+                        <a role="tab" class="tab tab-active" data-tab="despesas">Despesas</a>
+                        <a role="tab" class="tab" data-tab="receitas">Receitas</a>
+                    </div>
                 </div>
-                <div class="space-y-4">
-                    <!-- Itens de progresso (mantidos iguais ao original) -->
+
+                <!-- Conteúdo Despesas -->
+                <div id="panel-despesas" class="space-y-4">
                     <div>
                         <div class="flex justify-between text-sm mb-1"><span class="font-medium">Moradia</span><span class="text-base-content/60">R$ 650,00</span></div>
                         <progress class="progress progress-error w-full" value="37" max="100"></progress>
@@ -115,14 +107,35 @@
                         <progress class="progress progress-success w-full" value="13" max="100"></progress>
                     </div>
                     <div>
-                        <div class="flex justify-between text-sm mb-1"><span class="font-medium">Investido</span><span class="text-base-content/60">R$ 220,00</span></div>
-                        <progress class="progress progress-success w-full" value="10" max="100"></progress>
+                        <div class="flex justify-between text-sm mb-1"><span class="font-medium">Investimento</span><span class="text-base-content/60">R$ 220,00</span></div>
+                        <progress class="progress progress-secondary w-full" value="10" max="100"></progress>
                     </div>
                     <div>
                         <div class="flex justify-between text-sm mb-1"><span class="font-medium">Outros</span><span class="text-base-content/60">R$ 150,00</span></div>
                         <progress class="progress progress-primary w-full" value="8" max="100"></progress>
                     </div>
                 </div>
+
+                <!-- Conteúdo Receitas -->
+                <div id="panel-receitas" class="space-y-4 hidden">
+                    <div>
+                        <div class="flex justify-between text-sm mb-1"><span class="font-medium">Salário CLT</span><span class="text-base-content/60">R$ 3.000,00</span></div>
+                        <progress class="progress progress-success w-full" value="60" max="100"></progress>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm mb-1"><span class="font-medium">Freelance</span><span class="text-base-content/60">R$ 1.200,00</span></div>
+                        <progress class="progress progress-info w-full" value="24" max="100"></progress>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm mb-1"><span class="font-medium">Dividendos</span><span class="text-base-content/60">R$ 500,00</span></div>
+                        <progress class="progress progress-warning w-full" value="10" max="100"></progress>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm mb-1"><span class="font-medium">Renda Extra</span><span class="text-base-content/60">R$ 300,00</span></div>
+                        <progress class="progress progress-accent w-full" value="6" max="100"></progress>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -158,4 +171,21 @@
             </div>
         </section>
     </div>
+
+    <!-- Script para alternância das abas -->
+    <script>
+        document.getElementById('category-tabs').addEventListener('click', function(e) {
+            const tab = e.target.closest('[data-tab]');
+            if (!tab) return;
+
+            // Atualiza estado visual das abas
+            this.querySelectorAll('.tab').forEach(t => t.classList.remove('tab-active'));
+            tab.classList.add('tab-active');
+
+            // Troca o painel visível
+            const target = tab.dataset.tab;
+            document.getElementById('panel-despesas').classList.toggle('hidden', target !== 'despesas');
+            document.getElementById('panel-receitas').classList.toggle('hidden', target !== 'receitas');
+        });
+    </script>
 {% endblock %}
