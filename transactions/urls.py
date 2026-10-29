@@ -6,7 +6,7 @@ app_name = "transactions"
 
 urlpatterns = [
     #templates routes
-    path("home/", TransactionsViewTemplate.as_view(), name="home"),
+    path("", TransactionsViewTemplate.as_view(), name="home"),
     
     #api routes
     path("api/add", AddTransactionView.as_view()),

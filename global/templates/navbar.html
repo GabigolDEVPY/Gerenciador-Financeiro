@@ -1,0 +1,42 @@
+<div class="navbar bg-base-100 shadow-sm px-4 lg:px-8 sticky top-0 z-50">
+    <div class="navbar-start">
+        <!-- Botão expandir (mobile) -->
+        <div class="dropdown">
+            <div tabindex="0" role="button" class="btn btn-ghost lg:hidden" aria-label="Abrir menu">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </div>
+            <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow">
+                <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active font-semibold{% endif %}">Dashboard</a></li>
+                <li><a href="{% url 'transactions:home' %}" class="{% if request.resolver_match.url_name == 'transacoes' %}active font-semibold{% endif %}">Lançamentos</a></li>
+                <li class="mt-2 border-t border-base-300 pt-2"><a href="{% url 'account:logout' %}">Sair</a></li>
+            </ul>
+        </div>
+        <a href="{% url 'home' %}" class="btn btn-ghost text-xl font-bold text-primary">FinControl</a>
+    </div>
+
+    <!-- Menu desktop -->
+    <div class="navbar-center hidden lg:flex">
+        <ul class="menu menu-horizontal px-1 gap-1">
+            <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active font-semibold{% endif %}">Dashboard</a></li>
+            <li><a href="{% url 'transactions:home' %}" class="{% if request.resolver_match.url_name == 'transacoes' %}active font-semibold{% endif %}">Lançamentos</a></li>
+        </ul>
+    </div>
+
+    <div class="navbar-end gap-2">
+        <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar placeholder">
+                <div class="bg-primary text-primary-content rounded-full w-10">
+                    <span class="text-sm font-semibold">{{ user.first_name|default:"U"|first|upper }}</span>
+                </div>
+            </div>
+            <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow">
+                <li class="menu-title"><span>Minha conta</span></li>
+                <li><a href="#">Perfil</a></li>
+                <li><a href="#">Configurações</a></li>
+                <li><a href="{% url 'account:logout' %}">Sair</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
