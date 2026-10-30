@@ -28,7 +28,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="stat-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     </div>
                 </div>
-                <h2 class="text-2xl font-bold mt-2">R$ 3.250,00</h2>
+                <h2 id="balance-label" class="text-2xl font-bold mt-2">R$ 3.250,00</h2>
                 <p class="text-xs text-success mt-1">+12% em relação ao mês anterior</p>
             </div>
         </div>
@@ -40,8 +40,8 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="stat-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12" /></svg>
                     </div>
                 </div>
-                <h2 class="text-2xl font-bold text-success mt-2">R$ 5.000,00</h2>
-                <p class="text-xs text-base-content/50 mt-1">5 lançamentos de entrada</p>
+                <h2 id="credit-label" class="text-2xl font-bold text-success mt-2">R$ 5.000,00</h2>
+                <p id="credit-count" class="text-xs text-base-content/50 mt-1">5 lançamentos de entrada</p>
             </div>
         </div>
         <div class="card bg-base-100 shadow-sm">
@@ -52,8 +52,8 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="stat-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 13l-5 5m0 0l-5-5m5 5V6" /></svg>
                     </div>
                 </div>
-                <h2 class="text-2xl font-bold text-error mt-2">R$ 1.750,00</h2>
-                <p class="text-xs text-base-content/50 mt-1">8 lançamentos de saída</p>
+                <h2 id="debit-label" class="text-2xl font-bold text-error mt-2">R$ 1.750,00</h2>
+                <p id="debit-count" class="text-xs text-base-content/50 mt-1">8 lançamentos de saída</p>
             </div>
         </div>
         <div class="card bg-base-100 shadow-sm">
@@ -64,7 +64,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="stat-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
                     </div>
                 </div>
-                <h2 class="text-2xl font-bold text-info mt-2">65%</h2>
+                <h2 id="savings-rate-label" class="text-2xl font-bold text-info mt-2">65%</h2>
                 <p class="text-xs text-base-content/50 mt-1">Receitas − Despesas</p>
             </div>
         </div>
@@ -146,27 +146,8 @@
                     <h2 class="card-title text-lg">Últimos lançamentos</h2>
                     <a href="{% url 'transactions:home' %}" class="btn btn-ghost btn-sm">Ver todos</a>
                 </div>
-                <ul class="space-y-3">
-                    <li class="flex items-center justify-between gap-2">
-                        <div class="min-w-0"><p class="font-medium truncate">Salário</p><p class="text-xs text-base-content/50">25/10/2026</p></div>
-                        <span class="font-semibold text-success shrink-0">+ R$ 3.000</span>
-                    </li>
-                    <li class="flex items-center justify-between gap-2">
-                        <div class="min-w-0"><p class="font-medium truncate">Conta de energia</p><p class="text-xs text-base-content/50">24/10/2026</p></div>
-                        <span class="font-semibold text-error shrink-0">- R$ 180</span>
-                    </li>
-                    <li class="flex items-center justify-between gap-2">
-                        <div class="min-w-0"><p class="font-medium truncate">Freelance</p><p class="text-xs text-base-content/50">23/10/2026</p></div>
-                        <span class="font-semibold text-success shrink-0">+ R$ 2.000</span>
-                    </li>
-                    <li class="flex items-center justify-between gap-2">
-                        <div class="min-w-0"><p class="font-medium truncate">Internet</p><p class="text-xs text-base-content/50">22/10/2026</p></div>
-                        <span class="font-semibold text-error shrink-0">- R$ 120</span>
-                    </li>
-                    <li class="flex items-center justify-between gap-2">
-                        <div class="min-w-0"><p class="font-medium truncate">Supermercado</p><p class="text-xs text-base-content/50">21/10/2026</p></div>
-                        <span class="font-semibold text-error shrink-0">- R$ 450</span>
-                    </li>
+                <ul id="list_launchs" class="space-y-3">
+                    <!-- lista dos ultimos lançamentos -->
                 </ul>
             </div>
         </section>
@@ -187,5 +168,62 @@
             document.getElementById('panel-despesas').classList.toggle('hidden', target !== 'despesas');
             document.getElementById('panel-receitas').classList.toggle('hidden', target !== 'receitas');
         });
+
+        async function ApiRequest(method, url) {
+            try {
+                const response = await fetch(`${url}`, {
+                    method: method,
+                    credentials: "same-origin",
+                    headers: {"Content-Type": "application/json"}
+                });
+                if (!response.ok) {
+                    throw new Error("Não foi possível comunicar com servidor");
+                }
+                const data = await response.json();
+                return data
+
+            } catch (error) {
+                console.error(error)
+            }
+        }
+
+        async function LoadDashboard() {
+            const response_api = await ApiRequest("GET", "/transactions/api/all");
+            console.log(response_api);
+
+            document.querySelector("#balance-label").textContent = `R$ ${response_api.total_revenue}`;
+            document.querySelector("#debit-label").textContent = `R$ ${response_api.total_debit}`;
+            document.querySelector("#credit-label").textContent = `R$ ${response_api.total_credit}`;
+            document.querySelector("#savings-rate-label").textContent = `% ${response_api.savings_rate}`;
+
+            document.querySelector("#credit-count").textContent = `${response_api.credit_count} lançamentos de entrada`;
+            document.querySelector("#debit-count").textContent = `${response_api.debit_count} lançamentos de saída`;
+            const list_launch = document.getElementById("list_launchs")
+            response_api.last_transactions.forEach(transaction =>{
+                const element_launch = `
+                        <li class="flex items-center justify-between gap-2">
+                            <div class="min-w-0"><p class="font-medium truncate">${transaction.title}</p>
+                                <p class="text-xs text-base-content/50">
+                                    ${new Date(transaction.created).toLocaleString("pt-BR", {
+                                    timeZone: "America/Sao_Paulo",
+                                    day: "2-digit",
+                                    month: "2-digit",
+                                    year: "numeric",
+                                    hour: "2-digit",
+                                    minute: "2-digit"
+                                    })}
+                                </p>
+                            </div>
+                            <span class="font-semibold ${transaction.type === "credit" ? "text-success" : "text-error"} shrink-0">
+                                ${transaction.type === "credit" ? "+" : "-"} ${transaction.amount}</span>
+                        </li>
+                        `;
+                list_launch.insertAdjacentHTML("beforeend", element_launch)
+            })
+
+
+        };
+        LoadDashboard();
+
     </script>
 {% endblock %}
