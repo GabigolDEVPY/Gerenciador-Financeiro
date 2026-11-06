@@ -17,6 +17,11 @@
             </div>
             <form action="{% url 'account:login' %}" method="POST" class="space-y-5">
                 {% csrf_token %}
+                {% if form.errors %}
+                    <div class="alert alert-error">
+                        {{ form.errors }}
+                    </div>
+                {% endif %}
                 <div>
                     <label for="username" class="label mb-1"><span class="label-text font-semibold">Usuário ou e-mail</span></label>
                     <input id="username" name="username" type="text" placeholder="seu@email.com" class="input w-full" autocomplete="username" required/>

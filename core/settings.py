@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-7izm($6v^vv=0qth=$hun&ako*rexca84de(%tnvno#mo&e=y-
 
 AUTH_USER_MODEL = "account.Account"
 
-LOGIN_REDIRECT_URL = "transactions:home"
+LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "account:login"
 LOGIN_URL = "account:login"
 

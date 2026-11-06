@@ -4,226 +4,291 @@
 
 {% block extra_css %}
 <style>
-    .stat-icon { width: 2.5rem; height: 2.5rem; }
+    .stat-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    /* Scroll Personalizado Roxo */
+    .custom-scroll-purple {
+        max-height: 400px;
+        overflow-y: auto;
+        padding-right: 4px;
+        /* Espaço para não sobrepor o conteúdo */
+    }
+
+    /* Webkit (Chrome, Edge, Safari) */
+    .custom-scroll-purple::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .custom-scroll-purple::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .custom-scroll-purple::-webkit-scrollbar-thumb {
+        background-color: #a855f7;
+        /* Purple-500 */
+        border-radius: 20px;
+    }
+
+    .custom-scroll-purple::-webkit-scrollbar-thumb:hover {
+        background-color: #9333ea;
+        /* Purple-600 */
+    }
+
+    /* Firefox */
+    .custom-scroll-purple {
+        scrollbar-width: thin;
+        scrollbar-color: #a855f7 transparent;
+    }
 </style>
 {% endblock %}
 
 {% block content %}
-    <!-- Cabeçalho -->
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-        <div>
-            <h1 class="text-2xl sm:text-3xl font-bold">Dashboard</h1>
-            <p class="text-base-content/60 mt-1">Visão geral das suas finanças.</p>
-        </div>
-        <a href="{% url 'transactions:home' %}#nova-transacao" class="btn btn-primary">+ Nova transação</a>
+<!-- Cabeçalho -->
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+    <div>
+        <h1 class="text-2xl sm:text-3xl font-bold">Dashboard</h1>
+        <p class="text-base-content/60 mt-1">Visão geral das suas finanças.</p>
     </div>
+    <a href="{% url 'transactions:home' %}#nova-transacao" class="btn btn-primary">+ Nova transação</a>
+</div>
 
-    <!-- Cards de resumo -->
-    <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
-        <div class="card bg-base-100 shadow-sm">
-            <div class="card-body p-5">
-                <div class="flex items-center justify-between">
-                    <p class="text-sm text-base-content/60">Saldo atual</p>
-                    <div class="bg-primary/10 text-primary rounded-full p-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="stat-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    </div>
+<!-- Cards de resumo -->
+<section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
+    <div class="card bg-base-100 shadow-sm">
+        <div class="card-body p-5">
+            <div class="flex items-center justify-between">
+                <p class="text-sm text-base-content/60">Saldo atual</p>
+                <div class="bg-primary/10 text-primary rounded-full p-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stat-icon" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
                 </div>
-                <h2 id="balance-label" class="text-2xl font-bold mt-2">R$ 3.250,00</h2>
-                <p class="text-xs text-success mt-1">+12% em relação ao mês anterior</p>
             </div>
+            <h2 id="balance-label" class="text-2xl font-bold mt-2">R$ 3.250,00</h2>
+            <p class="text-xs text-success mt-1">+12% em relação ao mês anterior</p>
         </div>
-        <div class="card bg-base-100 shadow-sm">
-            <div class="card-body p-5">
-                <div class="flex items-center justify-between">
-                    <p class="text-sm text-base-content/60">Receitas do mês</p>
-                    <div class="bg-success/10 text-success rounded-full p-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="stat-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12" /></svg>
-                    </div>
+    </div>
+    <div class="card bg-base-100 shadow-sm">
+        <div class="card-body p-5">
+            <div class="flex items-center justify-between">
+                <p class="text-sm text-base-content/60">Receitas do mês</p>
+                <div class="bg-success/10 text-success rounded-full p-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stat-icon" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M7 11l5-5m0 0l5 5m-5-5v12" />
+                    </svg>
                 </div>
-                <h2 id="credit-label" class="text-2xl font-bold text-success mt-2">R$ 5.000,00</h2>
-                <p id="credit-count" class="text-xs text-base-content/50 mt-1">5 lançamentos de entrada</p>
             </div>
+            <h2 id="credit-label" class="text-2xl font-bold text-success mt-2">R$ 5.000,00</h2>
+            <p id="credit-count" class="text-xs text-base-content/50 mt-1">5 lançamentos de entrada</p>
         </div>
-        <div class="card bg-base-100 shadow-sm">
-            <div class="card-body p-5">
-                <div class="flex items-center justify-between">
-                    <p class="text-sm text-base-content/60">Despesas do mês</p>
-                    <div class="bg-error/10 text-error rounded-full p-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="stat-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 13l-5 5m0 0l-5-5m5 5V6" /></svg>
-                    </div>
+    </div>
+    <div class="card bg-base-100 shadow-sm">
+        <div class="card-body p-5">
+            <div class="flex items-center justify-between">
+                <p class="text-sm text-base-content/60">Despesas do mês</p>
+                <div class="bg-error/10 text-error rounded-full p-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stat-icon" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 13l-5 5m0 0l-5-5m5 5V6" />
+                    </svg>
                 </div>
-                <h2 id="debit-label" class="text-2xl font-bold text-error mt-2">R$ 1.750,00</h2>
-                <p id="debit-count" class="text-xs text-base-content/50 mt-1">8 lançamentos de saída</p>
             </div>
+            <h2 id="debit-label" class="text-2xl font-bold text-error mt-2">R$ 1.750,00</h2>
+            <p id="debit-count" class="text-xs text-base-content/50 mt-1">8 lançamentos de saída</p>
         </div>
-        <div class="card bg-base-100 shadow-sm">
-            <div class="card-body p-5">
-                <div class="flex items-center justify-between">
-                    <p class="text-sm text-base-content/60">Taxa de economia</p>
-                    <div class="bg-info/10 text-info rounded-full p-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="stat-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
-                    </div>
+    </div>
+    <div class="card bg-base-100 shadow-sm">
+        <div class="card-body p-5">
+            <div class="flex items-center justify-between">
+                <p class="text-sm text-base-content/60">Taxa de economia</p>
+                <div class="bg-info/10 text-info rounded-full p-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stat-icon" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                    </svg>
                 </div>
-                <h2 id="savings-rate-label" class="text-2xl font-bold text-info mt-2">65%</h2>
-                <p class="text-xs text-base-content/50 mt-1">Receitas − Despesas</p>
             </div>
+            <h2 id="savings-rate-label" class="text-2xl font-bold text-info mt-2">65%</h2>
+            <p class="text-xs text-base-content/50 mt-1">Receitas − Despesas</p>
+        </div>
+    </div>
+</section>
+
+<!-- Gráficos e resumo rápido -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+
+    <!-- Resumo por categoria COM SCROLL ROXO E CATEGORIAS COMPLETAS -->
+    <section class="card bg-base-100 shadow-sm lg:col-span-2">
+        <div class="card-body p-5 sm:p-6">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3">
+                <div>
+                    <h2 class="card-title text-lg">Fluxo por Categoria</h2>
+                    <p class="text-sm text-base-content/60">Outubro 2026</p>
+                </div>
+
+                <div role="tablist" class="tabs tabs-boxed tabs-sm w-fit" id="category-tabs">
+                    <a role="tab" class="tab tab-active" data-tab="despesas">Despesas</a>
+                    <a role="tab" class="tab" data-tab="receitas">Receitas</a>
+                </div>
+            </div>
+
+            <!-- Conteúdo Despesas (Todas as categorias + Scroll Roxo) -->
+            <div id="panel-despesas" class="custom-scroll-purple space-y-4 pr-1"></div>
+
+            <!-- Conteúdo Receitas (Ajustado) -->
+            <div id="panel-receitas" class="custom-scroll-purple space-y-4 hidden pr-1"></div>
+
         </div>
     </section>
 
-    <!-- Gráficos e resumo rápido -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        
-        <!-- Resumo por categoria COM ABAS FUNCIONAIS -->
-        <section class="card bg-base-100 shadow-sm lg:col-span-2">
-            <div class="card-body p-5 sm:p-6">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3">
-                    <div>
-                        <h2 class="card-title text-lg">Fluxo por Categoria</h2>
-                        <p class="text-sm text-base-content/60">Outubro 2026</p>
-                    </div>
-                    
-                    <div role="tablist" class="tabs tabs-boxed tabs-sm w-fit" id="category-tabs">
-                        <a role="tab" class="tab tab-active" data-tab="despesas">Despesas</a>
-                        <a role="tab" class="tab" data-tab="receitas">Receitas</a>
-                    </div>
-                </div>
-
-                <!-- Conteúdo Despesas -->
-                <div id="panel-despesas" class="space-y-4">
-                    <div>
-                        <div class="flex justify-between text-sm mb-1"><span class="font-medium">Moradia</span><span class="text-base-content/60">R$ 650,00</span></div>
-                        <progress class="progress progress-error w-full" value="37" max="100"></progress>
-                    </div>
-                    <div>
-                        <div class="flex justify-between text-sm mb-1"><span class="font-medium">Alimentação</span><span class="text-base-content/60">R$ 450,00</span></div>
-                        <progress class="progress progress-warning w-full" value="26" max="100"></progress>
-                    </div>
-                    <div>
-                        <div class="flex justify-between text-sm mb-1"><span class="font-medium">Transporte</span><span class="text-base-content/60">R$ 280,00</span></div>
-                        <progress class="progress progress-info w-full" value="16" max="100"></progress>
-                    </div>
-                    <div>
-                        <div class="flex justify-between text-sm mb-1"><span class="font-medium">Lazer</span><span class="text-base-content/60">R$ 220,00</span></div>
-                        <progress class="progress progress-success w-full" value="13" max="100"></progress>
-                    </div>
-                    <div>
-                        <div class="flex justify-between text-sm mb-1"><span class="font-medium">Investimento</span><span class="text-base-content/60">R$ 220,00</span></div>
-                        <progress class="progress progress-secondary w-full" value="10" max="100"></progress>
-                    </div>
-                    <div>
-                        <div class="flex justify-between text-sm mb-1"><span class="font-medium">Outros</span><span class="text-base-content/60">R$ 150,00</span></div>
-                        <progress class="progress progress-primary w-full" value="8" max="100"></progress>
-                    </div>
-                </div>
-
-                <!-- Conteúdo Receitas -->
-                <div id="panel-receitas" class="space-y-4 hidden">
-                    <div>
-                        <div class="flex justify-between text-sm mb-1"><span class="font-medium">Salário CLT</span><span class="text-base-content/60">R$ 3.000,00</span></div>
-                        <progress class="progress progress-success w-full" value="60" max="100"></progress>
-                    </div>
-                    <div>
-                        <div class="flex justify-between text-sm mb-1"><span class="font-medium">Freelance</span><span class="text-base-content/60">R$ 1.200,00</span></div>
-                        <progress class="progress progress-info w-full" value="24" max="100"></progress>
-                    </div>
-                    <div>
-                        <div class="flex justify-between text-sm mb-1"><span class="font-medium">Dividendos</span><span class="text-base-content/60">R$ 500,00</span></div>
-                        <progress class="progress progress-warning w-full" value="10" max="100"></progress>
-                    </div>
-                    <div>
-                        <div class="flex justify-between text-sm mb-1"><span class="font-medium">Renda Extra</span><span class="text-base-content/60">R$ 300,00</span></div>
-                        <progress class="progress progress-accent w-full" value="6" max="100"></progress>
-                    </div>
-                </div>
-
+    <!-- Últimos lançamentos -->
+    <section class="card bg-base-100 shadow-sm">
+        <div class="card-body p-5 sm:p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="card-title text-lg">Últimos lançamentos</h2>
+                <a href="{% url 'transactions:home' %}" class="btn btn-ghost btn-sm">Ver todos</a>
             </div>
-        </section>
+            <ul id="list_launchs" class="space-y-3">
+                <!-- lista dos ultimos lançamentos via JS -->
+            </ul>
+        </div>
+    </section>
+</div>
 
-        <!-- Últimos lançamentos -->
-        <section class="card bg-base-100 shadow-sm">
-            <div class="card-body p-5 sm:p-6">
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="card-title text-lg">Últimos lançamentos</h2>
-                    <a href="{% url 'transactions:home' %}" class="btn btn-ghost btn-sm">Ver todos</a>
+<!-- Script para alternância das abas e API -->
+<script>
+    document.getElementById('category-tabs').addEventListener('click', function (e) {
+        const tab = e.target.closest('[data-tab]');
+        if (!tab) return;
+
+        // Atualiza estado visual das abas
+        this.querySelectorAll('.tab').forEach(t => t.classList.remove('tab-active'));
+        tab.classList.add('tab-active');
+
+        // Troca o painel visível
+        const target = tab.dataset.tab;
+        document.getElementById('panel-despesas').classList.toggle('hidden', target !== 'despesas');
+        document.getElementById('panel-receitas').classList.toggle('hidden', target !== 'receitas');
+    });
+
+    async function ApiRequest(method, url) {
+        try {
+            const response = await fetch(`${url}`, {
+                method: method,
+                credentials: "same-origin",
+                headers: { "Content-Type": "application/json" }
+            });
+            if (!response.ok) {
+                throw new Error("Não foi possível comunicar com servidor");
+            }
+            const data = await response.json();
+            return data;
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async function LoadDashboard() {
+        const response_api = await ApiRequest("GET", "/transactions/api/all");
+
+        // Proteção caso a API falhe ou retorne null
+        if (!response_api) return;
+
+        console.log(response_api);
+
+        document.querySelector("#balance-label").textContent = `R$ ${response_api.total_revenue}`;
+        document.querySelector("#debit-label").textContent = `R$ ${response_api.total_debit}`;
+        document.querySelector("#credit-label").textContent = `R$ ${response_api.total_credit}`;
+        document.querySelector("#savings-rate-label").textContent = `% ${response_api.savings_rate}`;
+
+        document.querySelector("#credit-count").textContent = `${response_api.credit_count} lançamentos de entrada`;
+        document.querySelector("#debit-count").textContent = `${response_api.debit_count} lançamentos de saída`;
+
+        const list_launch = document.getElementById("list_launchs");
+        list_launch.innerHTML = ""; // Limpa antes de preencher
+
+        if (response_api.last_transactions && response_api.last_transactions.length > 0) {
+            response_api.last_transactions.forEach(transaction => {
+                const element_launch = `
+                            <li class="flex items-center justify-between gap-2">
+                                <div class="min-w-0">
+                                    <p class="font-medium truncate">${transaction.title}</p>
+                                    <p class="text-xs text-base-content/50">
+                                        ${new Date(transaction.created).toLocaleString("pt-BR", {
+                    timeZone: "America/Sao_Paulo",
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit"
+                })}
+                                    </p>
+                                </div>
+                                <span class="font-semibold ${transaction.type === "credit" ? "text-success" : "text-error"} shrink-0">
+                                    ${transaction.type === "credit" ? "+" : "-"} R$ ${transaction.amount}
+                                </span>
+                            </li>
+                            `;
+                list_launch.insertAdjacentHTML("beforeend", element_launch);
+            });
+        } else {
+            list_launch.innerHTML = '<li class="text-center text-sm text-base-content/50 py-4">Nenhum lançamento recente</li>';
+        }
+        const categoriesProgress = {
+            // Despesas
+            "housing": "error",
+            "food": "warning",
+            "transport": "info",
+            "health": "secondary",
+            "education": "accent",
+            "leisure": "success",
+            "shopping": "primary",
+            "travel": "neutral",
+            "investment": "success",
+            "debt": "error",
+            "transfer": "ghost",
+            "work": "info",
+            "other": "base-300",
+
+            // Receitas
+            "Trabalho / Salário": "success",
+            "Freelance / Extra": "info",
+            "Retorno de Investimento": "warning",
+            "Transferências Recebidas": "secondary",
+            "Outras Receitas": "accent"
+        };
+
+        // buscando paineis
+        const panel_despesas = document.getElementById("panel-despesas");
+        const panel_receitas = document.getElementById("panel-receitas");
+
+        response_api.transactions_categorys.forEach(despesa => {
+            const element_despesa = `
+                <div>
+                    <div class="flex justify-between text-sm mb-1"><span class="font-medium">${despesa.category}</span><span
+                            class="text-base-content/60">R$ ${despesa.total}</span></div>
+                    <progress class="progress progress-${categoriesProgress[despesa.category]} w-full" value="${despesa.percentage}" max="100"></progress>
                 </div>
-                <ul id="list_launchs" class="space-y-3">
-                    <!-- lista dos ultimos lançamentos -->
-                </ul>
-            </div>
-        </section>
-    </div>
-
-    <!-- Script para alternância das abas -->
-    <script>
-        document.getElementById('category-tabs').addEventListener('click', function(e) {
-            const tab = e.target.closest('[data-tab]');
-            if (!tab) return;
-
-            // Atualiza estado visual das abas
-            this.querySelectorAll('.tab').forEach(t => t.classList.remove('tab-active'));
-            tab.classList.add('tab-active');
-
-            // Troca o painel visível
-            const target = tab.dataset.tab;
-            document.getElementById('panel-despesas').classList.toggle('hidden', target !== 'despesas');
-            document.getElementById('panel-receitas').classList.toggle('hidden', target !== 'receitas');
+            `;
+            if (despesa.type === "credit") {
+                panel_receitas.insertAdjacentHTML("beforeend", element_despesa);
+            } else {
+                panel_despesas.insertAdjacentHTML("beforeend", element_despesa);
+            }
         });
 
-        async function ApiRequest(method, url) {
-            try {
-                const response = await fetch(`${url}`, {
-                    method: method,
-                    credentials: "same-origin",
-                    headers: {"Content-Type": "application/json"}
-                });
-                if (!response.ok) {
-                    throw new Error("Não foi possível comunicar com servidor");
-                }
-                const data = await response.json();
-                return data
+    };
 
-            } catch (error) {
-                console.error(error)
-            }
-        }
-
-        async function LoadDashboard() {
-            const response_api = await ApiRequest("GET", "/transactions/api/all");
-            console.log(response_api);
-
-            document.querySelector("#balance-label").textContent = `R$ ${response_api.total_revenue}`;
-            document.querySelector("#debit-label").textContent = `R$ ${response_api.total_debit}`;
-            document.querySelector("#credit-label").textContent = `R$ ${response_api.total_credit}`;
-            document.querySelector("#savings-rate-label").textContent = `% ${response_api.savings_rate}`;
-
-            document.querySelector("#credit-count").textContent = `${response_api.credit_count} lançamentos de entrada`;
-            document.querySelector("#debit-count").textContent = `${response_api.debit_count} lançamentos de saída`;
-            const list_launch = document.getElementById("list_launchs")
-            response_api.last_transactions.forEach(transaction =>{
-                const element_launch = `
-                        <li class="flex items-center justify-between gap-2">
-                            <div class="min-w-0"><p class="font-medium truncate">${transaction.title}</p>
-                                <p class="text-xs text-base-content/50">
-                                    ${new Date(transaction.created).toLocaleString("pt-BR", {
-                                    timeZone: "America/Sao_Paulo",
-                                    day: "2-digit",
-                                    month: "2-digit",
-                                    year: "numeric",
-                                    hour: "2-digit",
-                                    minute: "2-digit"
-                                    })}
-                                </p>
-                            </div>
-                            <span class="font-semibold ${transaction.type === "credit" ? "text-success" : "text-error"} shrink-0">
-                                ${transaction.type === "credit" ? "+" : "-"} ${transaction.amount}</span>
-                        </li>
-                        `;
-                list_launch.insertAdjacentHTML("beforeend", element_launch)
-            })
-
-
-        };
-        LoadDashboard();
-
-    </script>
+    LoadDashboard();
+</script>
 {% endblock %}
