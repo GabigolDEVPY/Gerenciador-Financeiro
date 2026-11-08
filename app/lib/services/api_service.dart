@@ -95,6 +95,9 @@ class ApiService {
           totalBalance: income - expense,
           totalIncome: income,
           totalExpense: expense,
+          savingsRate: income > 0 ? ((income - expense) / income) * 100 : 0,
+          creditCount: txs.where((t) => t.isIncome).length,
+          debitCount: txs.where((t) => t.isExpense).length,
           recentTransactions: txs,
         );
       }

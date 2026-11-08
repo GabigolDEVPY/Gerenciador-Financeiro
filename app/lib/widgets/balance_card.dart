@@ -6,12 +6,18 @@ class BalanceCard extends StatelessWidget {
   final double balance;
   final double income;
   final double expense;
+  final double savingsRate;
+  final int creditCount;
+  final int debitCount;
 
   const BalanceCard({
     super.key,
     required this.balance,
     required this.income,
     required this.expense,
+    this.savingsRate = 0,
+    this.creditCount = 0,
+    this.debitCount = 0,
   });
 
   @override
@@ -26,9 +32,9 @@ class BalanceCard extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color(0xFF00C853),
-            Color(0xFF00A844),
-            Color(0xFF00796B),
+            AppColors.primary,
+            AppColors.primaryDark,
+            Color(0xFF3B2F6B),
           ],
         ),
         borderRadius: BorderRadius.circular(24),
@@ -69,12 +75,13 @@ class BalanceCard extends StatelessWidget {
                   icon: Icons.arrow_downward_rounded,
                   label: 'Entradas',
                   value: currency.format(income),
+                  subtitle: '$creditCount lançamentos',
                   color: Colors.white,
                 ),
               ),
               Container(
                 width: 1,
-                height: 40,
+                height: 60,
                 color: Colors.white24,
               ),
               Expanded(
@@ -82,10 +89,40 @@ class BalanceCard extends StatelessWidget {
                   icon: Icons.arrow_upward_rounded,
                   label: 'Saídas',
                   value: currency.format(expense),
+                  subtitle: '$debitCount lançamentos',
                   color: Colors.white,
                 ),
               ),
             ],
+          ),
+          const SizedBox(height: 18),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Taxa de economia',
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Text(
+                  '${savingsRate.toStringAsFixed(1)}%',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -96,6 +133,7 @@ class BalanceCard extends StatelessWidget {
     required IconData icon,
     required String label,
     required String value,
+    required String subtitle,
     required Color color,
   }) {
     return Padding(
@@ -131,6 +169,14 @@ class BalanceCard extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                   overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  subtitle,
+                  style: TextStyle(
+                    color: color.withValues(alpha: 0.7),
+                    fontSize: 10,
+                  ),
                 ),
               ],
             ),

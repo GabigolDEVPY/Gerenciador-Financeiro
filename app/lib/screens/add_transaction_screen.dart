@@ -25,28 +25,131 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
   String _category = 'food';
 
   final List<Map<String, dynamic>> _categories = [
-    {'value': 'work_wage', 'label': 'Salário', 'icon': Icons.work_rounded},
+    {'value': 'housing', 'label': 'Moradia', 'icon': Icons.home_rounded},
     {'value': 'food', 'label': 'Alimentação', 'icon': Icons.restaurant_rounded},
     {
       'value': 'transport',
       'label': 'Transporte',
-      'icon': Icons.directions_car_rounded,
+      'icon': Icons.directions_car_rounded
+    },
+    {'value': 'health', 'label': 'Saúde', 'icon': Icons.favorite_rounded},
+    {'value': 'education', 'label': 'Educação', 'icon': Icons.school_rounded},
+    {
+      'value': 'leisure',
+      'label': 'Lazer',
+      'icon': Icons.sports_esports_rounded
     },
     {
       'value': 'shopping',
       'label': 'Compras',
-      'icon': Icons.shopping_bag_rounded,
+      'icon': Icons.shopping_bag_rounded
     },
-    {'value': 'health', 'label': 'Saúde', 'icon': Icons.favorite_rounded},
+    {'value': 'travel', 'label': 'Viagem', 'icon': Icons.flight_rounded},
     {
-      'value': 'entertainment',
-      'label': 'Lazer',
-      'icon': Icons.sports_esports_rounded,
+      'value': 'investment',
+      'label': 'Investimento',
+      'icon': Icons.trending_up_rounded
     },
-    {'value': 'bills', 'label': 'Contas', 'icon': Icons.receipt_long_rounded},
-    {'value': 'education', 'label': 'Educação', 'icon': Icons.school_rounded},
+    {
+      'value': 'debt',
+      'label': 'Dívida / Empréstimo',
+      'icon': Icons.account_balance_wallet_rounded
+    },
+    {
+      'value': 'transfer',
+      'label': 'Transferência',
+      'icon': Icons.sync_alt_rounded
+    },
+    {
+      'value': 'work',
+      'label': 'Trabalho / Freelance',
+      'icon': Icons.work_rounded
+    },
     {'value': 'other', 'label': 'Outros', 'icon': Icons.more_horiz_rounded},
+    {
+      'value': 'work_wage',
+      'label': 'Trabalho / Salário',
+      'icon': Icons.payments_rounded
+    },
+    {
+      'value': 'freelance',
+      'label': 'Freelance / Extra',
+      'icon': Icons.computer_rounded
+    },
+    {
+      'value': 'investment_return',
+      'label': 'Retorno de Investimento',
+      'icon': Icons.show_chart_rounded
+    },
+    {
+      'value': 'transfer_received',
+      'label': 'Transferências Recebidas',
+      'icon': Icons.call_received_rounded
+    },
+    {
+      'value': 'other_income',
+      'label': 'Outras Receitas',
+      'icon': Icons.wallet_rounded
+    },
   ];
+
+  List<Map<String, dynamic>> get _visibleCategories {
+    final debitValues = {
+      'housing',
+      'food',
+      'transport',
+      'health',
+      'education',
+      'leisure',
+      'shopping',
+      'travel',
+      'investment',
+      'debt',
+      'transfer',
+      'work',
+      'other'
+    };
+    final creditValues = {
+      'work_wage',
+      'freelance',
+      'investment_return',
+      'transfer_received',
+      'other_income'
+    };
+
+    final allowed = _type == 'credit' ? creditValues : debitValues;
+    return _categories.where((cat) => allowed.contains(cat['value'])).toList();
+  }
+
+  void _setType(String nextType) {
+    setState(() {
+      _type = nextType;
+      final candidates = nextType == 'credit'
+          ? [
+              'work_wage',
+              'freelance',
+              'investment_return',
+              'transfer_received',
+              'other_income'
+            ]
+          : [
+              'housing',
+              'food',
+              'transport',
+              'health',
+              'education',
+              'leisure',
+              'shopping',
+              'travel',
+              'investment',
+              'debt',
+              'transfer',
+              'work',
+              'other'
+            ];
+      _category = candidates.contains(_category) ? _category : candidates.first;
+    });
+  }
 
   @override
   void dispose() {
@@ -169,7 +272,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                       icon: Icons.arrow_downward_rounded,
                       selected: _type == 'credit',
                       color: AppColors.income,
-                      onTap: () => setState(() => _type = 'credit'),
+                      onTap: () => _setType('credit'),
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -179,7 +282,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                       icon: Icons.arrow_upward_rounded,
                       selected: _type == 'debit',
                       color: AppColors.expense,
-                      onTap: () => setState(() => _type = 'debit'),
+                      onTap: () => _setType('debit'),
                     ),
                   ),
                 ],
@@ -234,7 +337,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
               Wrap(
                 spacing: 10,
                 runSpacing: 10,
-                children: _categories.map((cat) {
+                children: _visibleCategories.map((cat) {
                   final selected = _category == cat['value'];
                   return GestureDetector(
                     onTap: () => setState(() => _category = cat['value']),
@@ -271,9 +374,8 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                             cat['label'] as String,
                             style: TextStyle(
                               fontSize: 13,
-                              fontWeight: selected
-                                  ? FontWeight.w600
-                                  : FontWeight.w500,
+                              fontWeight:
+                                  selected ? FontWeight.w600 : FontWeight.w500,
                               color: selected
                                   ? AppColors.primary
                                   : AppColors.textSecondary,

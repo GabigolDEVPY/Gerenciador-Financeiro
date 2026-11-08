@@ -10,31 +10,40 @@ class TransactionCard extends StatelessWidget {
 
   IconData _getCategoryIcon(String category) {
     switch (category.toLowerCase()) {
-      case 'work_wage':
-      case 'salary':
-      case 'salario':
-        return Icons.work_rounded;
+      case 'housing':
+        return Icons.home_rounded;
       case 'food':
-      case 'comida':
         return Icons.restaurant_rounded;
       case 'transport':
-      case 'transporte':
         return Icons.directions_car_rounded;
-      case 'shopping':
-      case 'compras':
-        return Icons.shopping_bag_rounded;
       case 'health':
-      case 'saude':
         return Icons.favorite_rounded;
-      case 'entertainment':
-      case 'lazer':
-        return Icons.sports_esports_rounded;
-      case 'bills':
-      case 'contas':
-        return Icons.receipt_long_rounded;
       case 'education':
-      case 'educacao':
         return Icons.school_rounded;
+      case 'leisure':
+      case 'entertainment':
+        return Icons.sports_esports_rounded;
+      case 'shopping':
+        return Icons.shopping_bag_rounded;
+      case 'travel':
+        return Icons.flight_rounded;
+      case 'investment':
+        return Icons.trending_up_rounded;
+      case 'debt':
+        return Icons.account_balance_wallet_rounded;
+      case 'transfer':
+      case 'transfer_received':
+        return Icons.sync_alt_rounded;
+      case 'work':
+      case 'work_wage':
+        return Icons.work_rounded;
+      case 'freelance':
+        return Icons.computer_rounded;
+      case 'investment_return':
+        return Icons.show_chart_rounded;
+      case 'other_income':
+      case 'other':
+        return Icons.wallet_rounded;
       default:
         return transaction.isIncome
             ? Icons.arrow_downward_rounded
@@ -43,11 +52,35 @@ class TransactionCard extends StatelessWidget {
   }
 
   String _formatCategory(String category) {
-    return category
-        .replaceAll('_', ' ')
-        .split(' ')
-        .map((w) => w.isEmpty ? '' : '${w[0].toUpperCase()}${w.substring(1)}')
-        .join(' ');
+    final normalized = category.trim();
+    final map = {
+      'housing': 'Moradia',
+      'food': 'Alimentação',
+      'transport': 'Transporte',
+      'health': 'Saúde',
+      'education': 'Educação',
+      'leisure': 'Lazer',
+      'shopping': 'Compras',
+      'travel': 'Viagem',
+      'investment': 'Investimento',
+      'debt': 'Dívida / Empréstimo',
+      'transfer': 'Transferência',
+      'work': 'Trabalho / Freelance',
+      'other': 'Outros',
+      'work_wage': 'Trabalho / Salário',
+      'freelance': 'Freelance / Extra',
+      'investment_return': 'Retorno de Investimento',
+      'transfer_received': 'Transferências Recebidas',
+      'other_income': 'Outras Receitas',
+    };
+
+    return map[normalized.toLowerCase()] ??
+        normalized
+            .replaceAll('_', ' ')
+            .split(' ')
+            .map((w) =>
+                w.isEmpty ? '' : '${w[0].toUpperCase()}${w.substring(1)}')
+            .join(' ');
   }
 
   @override
