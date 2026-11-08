@@ -3,295 +3,351 @@
 {% block title %}FinControl · Lançamentos{% endblock %}
 
 {% block content %}
-    <!-- Cabeçalho -->
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-        <div>
-            <h1 class="text-2xl sm:text-3xl font-bold">Lançamentos</h1>
-            <p class="text-base-content/60 mt-1">Acompanhe suas receitas e despesas.</p>
-        </div>
-        <button type="button" class="btn btn-primary"
-                onclick="document.getElementById('modal-nova-transacao').showModal()">
-            + Nova transação
-        </button>
+<!-- Cabeçalho -->
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+    <div>
+        <h1 class="text-2xl sm:text-3xl font-bold">Lançamentos</h1>
+        <p class="text-base-content/60 mt-1">Acompanhe suas receitas e despesas.</p>
     </div>
+    <button type="button" class="btn btn-primary" onclick="document.getElementById('modal-nova-transacao').showModal()">
+        + Nova transação
+    </button>
+</div>
 
-    <!-- Lista de transações -->
-    <section class="card bg-base-100 shadow-sm">
-        <div class="card-body p-0">
-            
-            <!-- BARRA DE FILTROS E BUSCA -->
-            <div class="p-5 sm:p-6 border-b border-base-300">
-                <div class="flex flex-col lg:flex-row lg:items-end gap-4">
-                    
-                    <!-- Busca Textual -->
-                    <div class="form-control w-full lg:w-64">
-                        <label class="label py-1">
-                            <span class="label-text text-xs font-semibold uppercase tracking-wider">Buscar</span>
-                        </label>
-                        <input type="search" 
-                               placeholder="Título ou descrição..."
-                               class="input input-bordered input-sm w-full"/>
-                    </div>
+<!-- Lista de transações -->
+<section class="card bg-base-100 shadow-sm">
+    <div class="card-body p-0">
 
-                    <!-- Divisor visual (apenas desktop) -->
-                    <div class="hidden lg:block w-px h-10 bg-base-300 mx-1"></div>
+        <!-- BARRA DE FILTROS E BUSCA -->
+        <div class="p-5 sm:p-6 border-b border-base-300">
+            <div class="flex flex-col lg:flex-row lg:items-end gap-4">
 
-                    <!-- Período: Data Início -->
-                    <div class="form-control w-full sm:w-auto sm:flex-1">
-                        <label class="label py-1">
-                            <span class="label-text text-xs font-semibold uppercase tracking-wider">De</span>
-                        </label>
-                        <input type="date" 
-                               class="input input-bordered input-sm w-full"/>
-                    </div>
-
-                    <!-- Período: Data Fim -->
-                    <div class="form-control w-full sm:w-auto sm:flex-1">
-                        <label class="label py-1">
-                            <span class="label-text text-xs font-semibold uppercase tracking-wider">Até</span>
-                        </label>
-                        <input type="date" 
-                               class="input input-bordered input-sm w-full"/>
-                    </div>
-
-                    <!-- Botões de Ação -->
-                    <div class="flex items-end gap-2 w-full lg:w-auto">
-                        <button type="button" class="btn btn-primary btn-sm w-full sm:w-auto">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-                            </svg>
-                            Filtrar
-                        </button>
-                        <button type="button" class="btn btn-ghost btn-sm w-full sm:w-auto">
-                            Limpar
-                        </button>
-                    </div>
+                <!-- Busca Textual -->
+                <div class="form-control w-full lg:w-64">
+                    <label class="label py-1">
+                        <span class="label-text text-xs font-semibold uppercase tracking-wider">Buscar</span>
+                    </label>
+                    <input type="search" placeholder="Título ou descrição..."
+                        class="input input-bordered input-sm w-full" />
                 </div>
-            </div>
 
-            <!-- Título da seção + Contador -->
-            <div class="px-5 sm:px-6 pt-4 pb-2">
-                <h2 class="card-title text-xl">Histórico</h2>
-                <p class="text-sm text-base-content/60">Suas transações recentes.</p>
-            </div>
+                <!-- Divisor visual (apenas desktop) -->
+                <div class="hidden lg:block w-px h-10 bg-base-300 mx-1"></div>
 
-            <!-- Tabela Desktop -->
-            <div class="hidden md:block overflow-x-auto">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Título</th>
-                            <th>Categoria</th>
-                            <th>Data</th>
-                            <th>Tipo</th>
-                            <th class="text-right">Valor</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="font-semibold">Salário</td>
-                            <td><span class="badge badge-ghost badge-sm">Trabalho</span></td>
-                            <td>25/10/2026</td>
-                            <td><span class="badge badge-success badge-outline">Receita</span></td>
-                            <td class="text-right font-semibold text-success">+ R$ 3.000,00</td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold">Conta de energia</td>
-                            <td><span class="badge badge-ghost badge-sm">Moradia</span></td>
-                            <td>24/10/2026</td>
-                            <td><span class="badge badge-error badge-outline">Despesa</span></td>
-                            <td class="text-right font-semibold text-error">- R$ 180,00</td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold">Tesouro Direto</td>
-                            <td><span class="badge badge-ghost badge-sm">Investimento</span></td>
-                            <td>23/10/2026</td>
-                            <td><span class="badge badge-warning badge-outline">Investimento</span></td>
-                            <td class="text-right font-semibold text-warning">R$ 350,00</td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold">Internet</td>
-                            <td><span class="badge badge-ghost badge-sm">Moradia</span></td>
-                            <td>22/10/2026</td>
-                            <td><span class="badge badge-error badge-outline">Despesa</span></td>
-                            <td class="text-right font-semibold text-error">- R$ 120,00</td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold">Supermercado</td>
-                            <td><span class="badge badge-ghost badge-sm">Alimentação</span></td>
-                            <td>21/10/2026</td>
-                            <td><span class="badge badge-error badge-outline">Despesa</span></td>
-                            <td class="text-right font-semibold text-error">- R$ 450,00</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                <!-- Período: Data Início -->
+                <div class="form-control w-full sm:w-auto sm:flex-1">
+                    <label class="label py-1">
+                        <span class="label-text text-xs font-semibold uppercase tracking-wider">De</span>
+                    </label>
+                    <input type="date" class="input input-bordered input-sm w-full" />
+                </div>
 
-            <!-- Cards Mobile -->
-            <div class="md:hidden divide-y divide-base-300">
-                <article class="p-4">
-                    <div class="flex justify-between items-start gap-3">
-                        <div class="min-w-0">
-                            <h3 class="font-semibold">Salário</h3>
-                            <div class="flex items-center gap-2 mt-1">
-                                <span class="badge badge-ghost badge-xs">Trabalho</span>
-                                <span class="text-xs text-base-content/50">25/10/2026</span>
-                            </div>
-                        </div>
-                        <div class="text-right shrink-0">
-                            <span class="badge badge-success badge-outline">Receita</span>
-                            <p class="font-bold text-success mt-2">+ R$ 3.000,00</p>
-                        </div>
-                    </div>
-                </article>
-                <article class="p-4">
-                    <div class="flex justify-between items-start gap-3">
-                        <div class="min-w-0">
-                            <h3 class="font-semibold">Conta de energia</h3>
-                            <div class="flex items-center gap-2 mt-1">
-                                <span class="badge badge-ghost badge-xs">Moradia</span>
-                                <span class="text-xs text-base-content/50">24/10/2026</span>
-                            </div>
-                        </div>
-                        <div class="text-right shrink-0">
-                            <span class="badge badge-error badge-outline">Despesa</span>
-                            <p class="font-bold text-error mt-2">- R$ 180,00</p>
-                        </div>
-                    </div>
-                </article>
-                <article class="p-4">
-                    <div class="flex justify-between items-start gap-3">
-                        <div class="min-w-0">
-                            <h3 class="font-semibold">Tesouro Direto</h3>
-                            <div class="flex items-center gap-2 mt-1">
-                                <span class="badge badge-ghost badge-xs">Investimento</span>
-                                <span class="text-xs text-base-content/50">23/10/2026</span>
-                            </div>
-                        </div>
-                        <div class="text-right shrink-0">
-                            <span class="badge badge-warning badge-outline">Investimento</span>
-                            <p class="font-bold text-warning mt-2">R$ 350,00</p>
-                        </div>
-                    </div>
-                </article>
-                <article class="p-4">
-                    <div class="flex justify-between items-start gap-3">
-                        <div class="min-w-0">
-                            <h3 class="font-semibold">Internet</h3>
-                            <div class="flex items-center gap-2 mt-1">
-                                <span class="badge badge-ghost badge-xs">Moradia</span>
-                                <span class="text-xs text-base-content/50">22/10/2026</span>
-                            </div>
-                        </div>
-                        <div class="text-right shrink-0">
-                            <span class="badge badge-error badge-outline">Despesa</span>
-                            <p class="font-bold text-error mt-2">- R$ 120,00</p>
-                        </div>
-                    </div>
-                </article>
-                <article class="p-4">
-                    <div class="flex justify-between items-start gap-3">
-                        <div class="min-w-0">
-                            <h3 class="font-semibold">Supermercado</h3>
-                            <div class="flex items-center gap-2 mt-1">
-                                <span class="badge badge-ghost badge-xs">Alimentação</span>
-                                <span class="text-xs text-base-content/50">21/10/2026</span>
-                            </div>
-                        </div>
-                        <div class="text-right shrink-0">
-                            <span class="badge badge-error badge-outline">Despesa</span>
-                            <p class="font-bold text-error mt-2">- R$ 450,00</p>
-                        </div>
-                    </div>
-                </article>
-            </div>
+                <!-- Período: Data Fim -->
+                <div class="form-control w-full sm:w-auto sm:flex-1">
+                    <label class="label py-1">
+                        <span class="label-text text-xs font-semibold uppercase tracking-wider">Até</span>
+                    </label>
+                    <input type="date" class="input input-bordered input-sm w-full" />
+                </div>
 
-            <!-- Paginação -->
-            <div class="p-4 border-t border-base-300 flex flex-col sm:flex-row justify-between items-center gap-3">
-                <span class="text-xs sm:text-sm text-base-content/60">Mostrando 5 transações</span>
-                <div class="join">
-                    <button class="join-item btn btn-sm" disabled>«</button>
-                    <button class="join-item btn btn-sm btn-active">1</button>
-                    <button class="join-item btn btn-sm">2</button>
-                    <button class="join-item btn btn-sm">»</button>
+                <!-- Botões de Ação -->
+                <div class="flex items-end gap-2 w-full lg:w-auto">
+                    <button type="button" class="btn btn-primary btn-sm w-full sm:w-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                        </svg>
+                        Filtrar
+                    </button>
+                    <button type="button" class="btn btn-ghost btn-sm w-full sm:w-auto">
+                        Limpar
+                    </button>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- MODAL: Nova transação -->
-    <dialog id="modal-nova-transacao" class="modal">
-        <div class="modal-box w-11/12 max-w-2xl">
-            <form method="dialog">
-                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" aria-label="Fechar">✕</button>
-            </form>
-
-            <h3 class="font-bold text-xl mb-1">Cadastrar transação</h3>
-            <p class="text-sm text-base-content/60 mb-6">Preencha os dados da sua receita, despesa ou investimento.</p>
-
-            <form action="#" method="post" class="space-y-4">
-                {% csrf_token %}
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="form-control">
-                        <label for="title" class="label"><span class="label-text font-semibold">Título</span></label>
-                        <input id="title" name="title" type="text" maxlength="50" placeholder="Ex.: Conta de energia" class="input input-bordered w-full" required/>
-                    </div>
-                    <div class="form-control">
-                        <label for="amount" class="label"><span class="label-text font-semibold">Valor (R$)</span></label>
-                        <input id="amount" name="amount" type="number" min="0" step="0.01" placeholder="0,00" class="input input-bordered w-full" required/>
-                    </div>
-                    <div class="form-control">
-                        <label for="type" class="label"><span class="label-text font-semibold">Tipo de transação</span></label>
-                        <select id="type" name="type" class="select select-bordered w-full" required>
-                            <option value="" disabled selected>Selecione o tipo</option>
-                            <option value="credit">Receita</option>
-                            <option value="debit">Despesa</option>
-                            <option value="investment">Investimento</option>
-                            <option value="transfer">Transferência</option>
-                        </select>
-                    </div>
-                    <!-- NOVO: Campo de Categoria -->
-                    <div class="form-control">
-                        <label for="category" class="label"><span class="label-text font-semibold">Categoria</span></label>
-                        <select id="category" name="category" class="select select-bordered w-full" required>
-                            <option value="" disabled selected>Selecione a categoria</option>
-                            <optgroup label="Essenciais">
-                                <option value="moradia">🏠 Moradia</option>
-                                <option value="alimentacao">🍽️ Alimentação</option>
-                                <option value="transporte">🚗 Transporte</option>
-                                <option value="saude">💊 Saúde</option>
-                                <option value="educacao">📚 Educação</option>
-                            </optgroup>
-                            <optgroup label="Estilo de Vida">
-                                <option value="lazer">🎮 Lazer</option>
-                                <option value="compras">🛍️ Compras</option>
-                                <option value="viagem">✈️ Viagem</option>
-                            </optgroup>
-                            <optgroup label="Financeiro">
-                                <option value="investimento">📈 Investimento</option>
-                                <option value="divida">💳 Dívida / Empréstimo</option>
-                                <option value="transferencia">🔄 Transferência</option>
-                            </optgroup>
-                            <optgroup label="Outros">
-                                <option value="trabalho">💼 Trabalho / Freelance</option>
-                                <option value="outros">📌 Outros</option>
-                            </optgroup>
-                        </select>
-                    </div>
-                    <div class="form-control sm:col-span-2">
-                        <label for="description" class="label"><span class="label-text font-semibold">Descrição</span></label>
-                        <input id="description" name="description" type="text" maxlength="255" placeholder="Detalhes opcionais" class="input input-bordered w-full"/>
-                    </div>
-                </div>
-
-                <div class="modal-action flex-col-reverse sm:flex-row gap-2 mt-6">
-                    <button type="button" class="btn btn-ghost" onclick="document.getElementById('modal-nova-transacao').close()">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Cadastrar transação</button>
-                </div>
-            </form>
+        <!-- Título da seção + Contador -->
+        <div class="px-5 sm:px-6 pt-4 pb-2">
+            <h2 class="card-title text-xl">Histórico</h2>
+            <p class="text-sm text-base-content/60">Suas transações recentes.</p>
         </div>
-        <form method="dialog" class="modal-backdrop">
-            <button>close</button>
+
+        <!-- Tabela Desktop -->
+        <div class="hidden md:block overflow-x-auto">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Categoria</th>
+                        <th>Data</th>
+                        <th>Tipo</th>
+                        <th class="text-right">Valor</th>
+                    </tr>
+                </thead>
+                <tbody id="transactions-list">
+                    <tr>
+                        <td class="font-semibold">Salário</td>
+                        <td><span class="badge badge-ghost badge-sm">Trabalho</span></td>
+                        <td>25/10/2026</td>
+                        <td><span class="badge badge-success badge-outline">Receita</span></td>
+                        <td class="text-right font-semibold text-success">+ R$ 3.000,00</td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold">Conta de energia</td>
+                        <td><span class="badge badge-ghost badge-sm">Moradia</span></td>
+                        <td>24/10/2026</td>
+                        <td><span class="badge badge-error badge-outline">Despesa</span></td>
+                        <td class="text-right font-semibold text-error">- R$ 180,00</td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold">Tesouro Direto</td>
+                        <td><span class="badge badge-ghost badge-sm">Investimento</span></td>
+                        <td>23/10/2026</td>
+                        <td><span class="badge badge-warning badge-outline">Investimento</span></td>
+                        <td class="text-right font-semibold text-warning">R$ 350,00</td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold">Internet</td>
+                        <td><span class="badge badge-ghost badge-sm">Moradia</span></td>
+                        <td>22/10/2026</td>
+                        <td><span class="badge badge-error badge-outline">Despesa</span></td>
+                        <td class="text-right font-semibold text-error">- R$ 120,00</td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold">Supermercado</td>
+                        <td><span class="badge badge-ghost badge-sm">Alimentação</span></td>
+                        <td>21/10/2026</td>
+                        <td><span class="badge badge-error badge-outline">Despesa</span></td>
+                        <td class="text-right font-semibold text-error">- R$ 450,00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Cards Mobile -->
+        <div class="md:hidden divide-y divide-base-300">
+            <article class="p-4">
+                <div class="flex justify-between items-start gap-3">
+                    <div class="min-w-0">
+                        <h3 class="font-semibold">Salário</h3>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="badge badge-ghost badge-xs">Trabalho</span>
+                            <span class="text-xs text-base-content/50">25/10/2026</span>
+                        </div>
+                    </div>
+                    <div class="text-right shrink-0">
+                        <span class="badge badge-success badge-outline">Receita</span>
+                        <p class="font-bold text-success mt-2">+ R$ 3.000,00</p>
+                    </div>
+                </div>
+            </article>
+            <article class="p-4">
+                <div class="flex justify-between items-start gap-3">
+                    <div class="min-w-0">
+                        <h3 class="font-semibold">Conta de energia</h3>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="badge badge-ghost badge-xs">Moradia</span>
+                            <span class="text-xs text-base-content/50">24/10/2026</span>
+                        </div>
+                    </div>
+                    <div class="text-right shrink-0">
+                        <span class="badge badge-error badge-outline">Despesa</span>
+                        <p class="font-bold text-error mt-2">- R$ 180,00</p>
+                    </div>
+                </div>
+            </article>
+            <article class="p-4">
+                <div class="flex justify-between items-start gap-3">
+                    <div class="min-w-0">
+                        <h3 class="font-semibold">Tesouro Direto</h3>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="badge badge-ghost badge-xs">Investimento</span>
+                            <span class="text-xs text-base-content/50">23/10/2026</span>
+                        </div>
+                    </div>
+                    <div class="text-right shrink-0">
+                        <span class="badge badge-warning badge-outline">Investimento</span>
+                        <p class="font-bold text-warning mt-2">R$ 350,00</p>
+                    </div>
+                </div>
+            </article>
+            <article class="p-4">
+                <div class="flex justify-between items-start gap-3">
+                    <div class="min-w-0">
+                        <h3 class="font-semibold">Internet</h3>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="badge badge-ghost badge-xs">Moradia</span>
+                            <span class="text-xs text-base-content/50">22/10/2026</span>
+                        </div>
+                    </div>
+                    <div class="text-right shrink-0">
+                        <span class="badge badge-error badge-outline">Despesa</span>
+                        <p class="font-bold text-error mt-2">- R$ 120,00</p>
+                    </div>
+                </div>
+            </article>
+            <article class="p-4">
+                <div class="flex justify-between items-start gap-3">
+                    <div class="min-w-0">
+                        <h3 class="font-semibold">Supermercado</h3>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="badge badge-ghost badge-xs">Alimentação</span>
+                            <span class="text-xs text-base-content/50">21/10/2026</span>
+                        </div>
+                    </div>
+                    <div class="text-right shrink-0">
+                        <span class="badge badge-error badge-outline">Despesa</span>
+                        <p class="font-bold text-error mt-2">- R$ 450,00</p>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Paginação -->
+        <div class="p-4 border-t border-base-300 flex flex-col sm:flex-row justify-between items-center gap-3">
+            <span class="text-xs sm:text-sm text-base-content/60">Mostrando 5 transações</span>
+            <div class="join">
+                <button class="join-item btn btn-sm" disabled>«</button>
+                <button class="join-item btn btn-sm btn-active">1</button>
+                <button class="join-item btn btn-sm">2</button>
+                <button class="join-item btn btn-sm">»</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- MODAL: Nova transação -->
+<dialog id="modal-nova-transacao" class="modal">
+    <div class="modal-box w-11/12 max-w-2xl">
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" aria-label="Fechar">✕</button>
         </form>
-    </dialog>
+
+        <h3 class="font-bold text-xl mb-1">Cadastrar transação</h3>
+        <p class="text-sm text-base-content/60 mb-6">Preencha os dados da sua receita, despesa ou investimento.</p>
+
+        <form action="#" method="post" class="space-y-4">
+            {% csrf_token %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="form-control">
+                    <label for="title" class="label"><span class="label-text font-semibold">Título</span></label>
+                    <input id="title" name="title" type="text" maxlength="50" placeholder="Ex.: Conta de energia"
+                        class="input input-bordered w-full" required />
+                </div>
+                <div class="form-control">
+                    <label for="amount" class="label"><span class="label-text font-semibold">Valor (R$)</span></label>
+                    <input id="amount" name="amount" type="number" min="0" step="0.01" placeholder="0,00"
+                        class="input input-bordered w-full" required />
+                </div>
+                <div class="form-control">
+                    <label for="type" class="label"><span class="label-text font-semibold">Tipo de
+                            transação</span></label>
+                    <select id="type" name="type" class="select select-bordered w-full" required>
+                        <option value="" disabled selected>Selecione o tipo</option>
+                        <option value="credit">Receita</option>
+                        <option value="debit">Despesa</option>
+                        <option value="investment">Investimento</option>
+                        <option value="transfer">Transferência</option>
+                    </select>
+                </div>
+                <!-- NOVO: Campo de Categoria -->
+                <div class="form-control">
+                    <label for="category" class="label"><span class="label-text font-semibold">Categoria</span></label>
+                    <select id="category" name="category" class="select select-bordered w-full" required>
+                        <option value="" disabled selected>Selecione a categoria</option>
+                        <optgroup label="Essenciais">
+                            <option value="moradia">🏠 Moradia</option>
+                            <option value="alimentacao">🍽️ Alimentação</option>
+                            <option value="transporte">🚗 Transporte</option>
+                            <option value="saude">💊 Saúde</option>
+                            <option value="educacao">📚 Educação</option>
+                        </optgroup>
+                        <optgroup label="Estilo de Vida">
+                            <option value="lazer">🎮 Lazer</option>
+                            <option value="compras">🛍️ Compras</option>
+                            <option value="viagem">✈️ Viagem</option>
+                        </optgroup>
+                        <optgroup label="Financeiro">
+                            <option value="investimento">📈 Investimento</option>
+                            <option value="divida">💳 Dívida / Empréstimo</option>
+                            <option value="transferencia">🔄 Transferência</option>
+                        </optgroup>
+                        <optgroup label="Outros">
+                            <option value="trabalho">💼 Trabalho / Freelance</option>
+                            <option value="outros">📌 Outros</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="form-control sm:col-span-2">
+                    <label for="description" class="label"><span
+                            class="label-text font-semibold">Descrição</span></label>
+                    <input id="description" name="description" type="text" maxlength="255"
+                        placeholder="Detalhes opcionais" class="input input-bordered w-full" />
+                </div>
+            </div>
+
+            <div class="modal-action flex-col-reverse sm:flex-row gap-2 mt-6">
+                <button type="button" class="btn btn-ghost"
+                    onclick="document.getElementById('modal-nova-transacao').close()">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Cadastrar transação</button>
+            </div>
+        </form>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>
+<script>
+    async function ApiRequest(method, url) {
+        try {
+            const response = await fetch(`${url}`, {
+                method: method,
+                credentials: "same-origin",
+                headers: { "Content-Type": "application/json" }
+            });
+            if (!response.ok) {
+                throw new Error("Não foi possível comunicar com servidor");
+            }
+            const data = await response.json();
+            return data;
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+
+    async function LoadDashboard() {
+        const response_api = await ApiRequest("GET", "/transactions/api/transactions/");
+        // Proteção caso a API falhe ou retorne null
+        if (!response_api) return
+        console.log(response_api)
+        response_api.results.forEach(transaction => {
+            const element_lauch = `
+                    <tr>
+                        <td class="font-semibold">${transaction.title}</td>
+                        <td><span class="badge badge-ghost badge-sm">Trabalho</span></td>
+
+                        <td>${new Date(transaction.created).toLocaleString("pt-BR", {
+                            timeZone: "America/Sao_Paulo",
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit"
+                        })}
+                        </td>
+
+                        <td><span class="badge ${transaction.type === "credit" ? "badge-success" : "badge-error"} badge-outline">${transaction.type}</span></td>
+                        <td class="text-right font-semibold ${transaction.type === "credit" ? "text-success" : "text-error"}">${transaction.type === "credit" ? "+" : "-"} R$ ${transaction.amount}</td>
+                    </tr>`
+
+            document.querySelector("#transactions-list").insertAdjacentHTML("beforeend", element_lauch);
+
+        });
+    }
+    LoadDashboard();
+
+</script>
 {% endblock %}
