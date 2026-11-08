@@ -9,6 +9,7 @@ urlpatterns = [
     path("", TransactionsViewTemplate.as_view(), name="home"),
 
     path("api/transactions/", ReturnTransactionsView.as_view(), name=""),
+    
 
     #api routes
     path("api/add", AddTransactionView.as_view()),

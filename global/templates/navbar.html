@@ -1,3 +1,15 @@
+{% with ns=request.resolver_match.namespace name=request.resolver_match.url_name %}
+
+<style>
+    .menu li > a.nav-active,
+    .menu li > a.nav-active:hover,
+    .menu li > a.nav-active:focus {
+        background-color: #000;
+        color: #fff;
+        font-weight: 600;
+    }
+</style>
+
 <div class="navbar bg-base-100 shadow-sm px-4 lg:px-8 sticky top-0 z-50">
     <div class="navbar-start">
         <!-- Botão expandir (mobile) -->
@@ -8,8 +20,16 @@
                 </svg>
             </div>
             <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow">
-                <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active font-semibold{% endif %}">Dashboard</a></li>
-                <li><a href="{% url 'transactions:home' %}" class="{% if request.resolver_match.url_name == 'transacoes' %}active font-semibold{% endif %}">Lançamentos</a></li>
+                <li>
+                    <a href="{% url 'home' %}"
+                       class="{% if not ns and name == 'home' %}nav-active{% endif %}"
+                       {% if not ns and name == 'home' %}aria-current="page"{% endif %}>Dashboard</a>
+                </li>
+                <li>
+                    <a href="{% url 'transactions:home' %}"
+                       class="{% if ns == 'transactions' %}nav-active{% endif %}"
+                       {% if ns == 'transactions' %}aria-current="page"{% endif %}>Lançamentos</a>
+                </li>
                 <li class="mt-2 border-t border-base-300 pt-2"><a href="{% url 'account:logout' %}">Sair</a></li>
             </ul>
         </div>
@@ -19,8 +39,16 @@
     <!-- Menu desktop -->
     <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1 gap-1">
-            <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active font-semibold{% endif %}">Dashboard</a></li>
-            <li><a href="{% url 'transactions:home' %}" class="{% if request.resolver_match.url_name == 'transacoes' %}active font-semibold{% endif %}">Lançamentos</a></li>
+            <li>
+                <a href="{% url 'home' %}"
+                   class="{% if not ns and name == 'home' %}nav-active{% endif %}"
+                   {% if not ns and name == 'home' %}aria-current="page"{% endif %}>Dashboard</a>
+            </li>
+            <li>
+                <a href="{% url 'transactions:home' %}"
+                   class="{% if ns == 'transactions' %}nav-active{% endif %}"
+                   {% if ns == 'transactions' %}aria-current="page"{% endif %}>Lançamentos</a>
+            </li>
         </ul>
     </div>
 
@@ -40,3 +68,5 @@
         </div>
     </div>
 </div>
+
+{% endwith %}

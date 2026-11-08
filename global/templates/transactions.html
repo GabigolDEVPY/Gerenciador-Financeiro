@@ -22,37 +22,32 @@
         <div class="p-5 sm:p-6 border-b border-base-300">
             <div class="flex flex-col lg:flex-row lg:items-end gap-4">
 
-                <!-- Busca Textual -->
                 <div class="form-control w-full lg:w-64">
-                    <label class="label py-1">
+                    <label class="label py-1" for="filter-search">
                         <span class="label-text text-xs font-semibold uppercase tracking-wider">Buscar</span>
                     </label>
-                    <input type="search" placeholder="Título ou descrição..."
+                    <input id="filter-search" type="search" placeholder="Título ou descrição..."
                         class="input input-bordered input-sm w-full" />
                 </div>
 
-                <!-- Divisor visual (apenas desktop) -->
                 <div class="hidden lg:block w-px h-10 bg-base-300 mx-1"></div>
 
-                <!-- Período: Data Início -->
                 <div class="form-control w-full sm:w-auto sm:flex-1">
-                    <label class="label py-1">
+                    <label class="label py-1" for="filter-start-date">
                         <span class="label-text text-xs font-semibold uppercase tracking-wider">De</span>
                     </label>
-                    <input type="date" class="input input-bordered input-sm w-full" />
+                    <input id="filter-start-date" type="date" class="input input-bordered input-sm w-full" />
                 </div>
 
-                <!-- Período: Data Fim -->
                 <div class="form-control w-full sm:w-auto sm:flex-1">
-                    <label class="label py-1">
+                    <label class="label py-1" for="filter-end-date">
                         <span class="label-text text-xs font-semibold uppercase tracking-wider">Até</span>
                     </label>
-                    <input type="date" class="input input-bordered input-sm w-full" />
+                    <input id="filter-end-date" type="date" class="input input-bordered input-sm w-full" />
                 </div>
 
-                <!-- Botões de Ação -->
                 <div class="flex items-end gap-2 w-full lg:w-auto">
-                    <button type="button" class="btn btn-primary btn-sm w-full sm:w-auto">
+                    <button id="filter-submit" type="button" class="btn btn-primary btn-sm w-full sm:w-auto">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -60,14 +55,14 @@
                         </svg>
                         Filtrar
                     </button>
-                    <button type="button" class="btn btn-ghost btn-sm w-full sm:w-auto">
+                    <button id="filter-clear" type="button" class="btn btn-ghost btn-sm w-full sm:w-auto">
                         Limpar
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Título da seção + Contador -->
+        <!-- Título da seção -->
         <div class="px-5 sm:px-6 pt-4 pb-2">
             <h2 class="card-title text-xl">Histórico</h2>
             <p class="text-sm text-base-content/60">Suas transações recentes.</p>
@@ -85,134 +80,19 @@
                         <th class="text-right">Valor</th>
                     </tr>
                 </thead>
-                <tbody id="transactions-list">
-                    <tr>
-                        <td class="font-semibold">Salário</td>
-                        <td><span class="badge badge-ghost badge-sm">Trabalho</span></td>
-                        <td>25/10/2026</td>
-                        <td><span class="badge badge-success badge-outline">Receita</span></td>
-                        <td class="text-right font-semibold text-success">+ R$ 3.000,00</td>
-                    </tr>
-                    <tr>
-                        <td class="font-semibold">Conta de energia</td>
-                        <td><span class="badge badge-ghost badge-sm">Moradia</span></td>
-                        <td>24/10/2026</td>
-                        <td><span class="badge badge-error badge-outline">Despesa</span></td>
-                        <td class="text-right font-semibold text-error">- R$ 180,00</td>
-                    </tr>
-                    <tr>
-                        <td class="font-semibold">Tesouro Direto</td>
-                        <td><span class="badge badge-ghost badge-sm">Investimento</span></td>
-                        <td>23/10/2026</td>
-                        <td><span class="badge badge-warning badge-outline">Investimento</span></td>
-                        <td class="text-right font-semibold text-warning">R$ 350,00</td>
-                    </tr>
-                    <tr>
-                        <td class="font-semibold">Internet</td>
-                        <td><span class="badge badge-ghost badge-sm">Moradia</span></td>
-                        <td>22/10/2026</td>
-                        <td><span class="badge badge-error badge-outline">Despesa</span></td>
-                        <td class="text-right font-semibold text-error">- R$ 120,00</td>
-                    </tr>
-                    <tr>
-                        <td class="font-semibold">Supermercado</td>
-                        <td><span class="badge badge-ghost badge-sm">Alimentação</span></td>
-                        <td>21/10/2026</td>
-                        <td><span class="badge badge-error badge-outline">Despesa</span></td>
-                        <td class="text-right font-semibold text-error">- R$ 450,00</td>
-                    </tr>
-                </tbody>
+                <tbody id="transactions-list"></tbody>
             </table>
         </div>
 
         <!-- Cards Mobile -->
-        <div class="md:hidden divide-y divide-base-300">
-            <article class="p-4">
-                <div class="flex justify-between items-start gap-3">
-                    <div class="min-w-0">
-                        <h3 class="font-semibold">Salário</h3>
-                        <div class="flex items-center gap-2 mt-1">
-                            <span class="badge badge-ghost badge-xs">Trabalho</span>
-                            <span class="text-xs text-base-content/50">25/10/2026</span>
-                        </div>
-                    </div>
-                    <div class="text-right shrink-0">
-                        <span class="badge badge-success badge-outline">Receita</span>
-                        <p class="font-bold text-success mt-2">+ R$ 3.000,00</p>
-                    </div>
-                </div>
-            </article>
-            <article class="p-4">
-                <div class="flex justify-between items-start gap-3">
-                    <div class="min-w-0">
-                        <h3 class="font-semibold">Conta de energia</h3>
-                        <div class="flex items-center gap-2 mt-1">
-                            <span class="badge badge-ghost badge-xs">Moradia</span>
-                            <span class="text-xs text-base-content/50">24/10/2026</span>
-                        </div>
-                    </div>
-                    <div class="text-right shrink-0">
-                        <span class="badge badge-error badge-outline">Despesa</span>
-                        <p class="font-bold text-error mt-2">- R$ 180,00</p>
-                    </div>
-                </div>
-            </article>
-            <article class="p-4">
-                <div class="flex justify-between items-start gap-3">
-                    <div class="min-w-0">
-                        <h3 class="font-semibold">Tesouro Direto</h3>
-                        <div class="flex items-center gap-2 mt-1">
-                            <span class="badge badge-ghost badge-xs">Investimento</span>
-                            <span class="text-xs text-base-content/50">23/10/2026</span>
-                        </div>
-                    </div>
-                    <div class="text-right shrink-0">
-                        <span class="badge badge-warning badge-outline">Investimento</span>
-                        <p class="font-bold text-warning mt-2">R$ 350,00</p>
-                    </div>
-                </div>
-            </article>
-            <article class="p-4">
-                <div class="flex justify-between items-start gap-3">
-                    <div class="min-w-0">
-                        <h3 class="font-semibold">Internet</h3>
-                        <div class="flex items-center gap-2 mt-1">
-                            <span class="badge badge-ghost badge-xs">Moradia</span>
-                            <span class="text-xs text-base-content/50">22/10/2026</span>
-                        </div>
-                    </div>
-                    <div class="text-right shrink-0">
-                        <span class="badge badge-error badge-outline">Despesa</span>
-                        <p class="font-bold text-error mt-2">- R$ 120,00</p>
-                    </div>
-                </div>
-            </article>
-            <article class="p-4">
-                <div class="flex justify-between items-start gap-3">
-                    <div class="min-w-0">
-                        <h3 class="font-semibold">Supermercado</h3>
-                        <div class="flex items-center gap-2 mt-1">
-                            <span class="badge badge-ghost badge-xs">Alimentação</span>
-                            <span class="text-xs text-base-content/50">21/10/2026</span>
-                        </div>
-                    </div>
-                    <div class="text-right shrink-0">
-                        <span class="badge badge-error badge-outline">Despesa</span>
-                        <p class="font-bold text-error mt-2">- R$ 450,00</p>
-                    </div>
-                </div>
-            </article>
-        </div>
+        <div id="transactions-mobile" class="md:hidden divide-y divide-base-300"></div>
 
         <!-- Paginação -->
         <div class="p-4 border-t border-base-300 flex flex-col sm:flex-row justify-between items-center gap-3">
-            <span class="text-xs sm:text-sm text-base-content/60">Mostrando 5 transações</span>
-            <div class="join">
-                <button class="join-item btn btn-sm" disabled>«</button>
-                <button class="join-item btn btn-sm btn-active">1</button>
-                <button class="join-item btn btn-sm">2</button>
-                <button class="join-item btn btn-sm">»</button>
-            </div>
+            <span id="pagination-info" class="text-xs sm:text-sm text-base-content/60">
+                Carregando transações...
+            </span>
+            <div id="pagination-controls" class="join"></div>
         </div>
     </div>
 </section>
@@ -225,9 +105,11 @@
         </form>
 
         <h3 class="font-bold text-xl mb-1">Cadastrar transação</h3>
-        <p class="text-sm text-base-content/60 mb-6">Preencha os dados da sua receita, despesa ou investimento.</p>
+        <p class="text-sm text-base-content/60 mb-6">Preencha os dados da sua receita ou despesa.</p>
 
-        <form action="#" method="post" class="space-y-4">
+        <div id="form-error" class="alert alert-error text-sm mb-4 hidden" role="alert"></div>
+
+        <form id="form-transaction" novalidate class="space-y-4">
             {% csrf_token %}
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="form-control">
@@ -237,60 +119,33 @@
                 </div>
                 <div class="form-control">
                     <label for="amount" class="label"><span class="label-text font-semibold">Valor (R$)</span></label>
-                    <input id="amount" name="amount" type="number" min="0" step="0.01" placeholder="0,00"
+                    <input id="amount" name="amount" type="number" min="0.01" step="0.01" placeholder="0,00"
                         class="input input-bordered w-full" required />
                 </div>
                 <div class="form-control">
-                    <label for="type" class="label"><span class="label-text font-semibold">Tipo de
-                            transação</span></label>
+                    <label for="type" class="label"><span class="label-text font-semibold">Tipo de transação</span></label>
                     <select id="type" name="type" class="select select-bordered w-full" required>
                         <option value="" disabled selected>Selecione o tipo</option>
                         <option value="credit">Receita</option>
                         <option value="debit">Despesa</option>
-                        <option value="investment">Investimento</option>
-                        <option value="transfer">Transferência</option>
                     </select>
                 </div>
-                <!-- NOVO: Campo de Categoria -->
                 <div class="form-control">
                     <label for="category" class="label"><span class="label-text font-semibold">Categoria</span></label>
-                    <select id="category" name="category" class="select select-bordered w-full" required>
-                        <option value="" disabled selected>Selecione a categoria</option>
-                        <optgroup label="Essenciais">
-                            <option value="moradia">🏠 Moradia</option>
-                            <option value="alimentacao">🍽️ Alimentação</option>
-                            <option value="transporte">🚗 Transporte</option>
-                            <option value="saude">💊 Saúde</option>
-                            <option value="educacao">📚 Educação</option>
-                        </optgroup>
-                        <optgroup label="Estilo de Vida">
-                            <option value="lazer">🎮 Lazer</option>
-                            <option value="compras">🛍️ Compras</option>
-                            <option value="viagem">✈️ Viagem</option>
-                        </optgroup>
-                        <optgroup label="Financeiro">
-                            <option value="investimento">📈 Investimento</option>
-                            <option value="divida">💳 Dívida / Empréstimo</option>
-                            <option value="transferencia">🔄 Transferência</option>
-                        </optgroup>
-                        <optgroup label="Outros">
-                            <option value="trabalho">💼 Trabalho / Freelance</option>
-                            <option value="outros">📌 Outros</option>
-                        </optgroup>
+                    <select id="category" name="category" class="select select-bordered w-full" required disabled>
+                        <option value="" disabled selected>Selecione o tipo primeiro</option>
                     </select>
                 </div>
                 <div class="form-control sm:col-span-2">
-                    <label for="description" class="label"><span
-                            class="label-text font-semibold">Descrição</span></label>
+                    <label for="description" class="label"><span class="label-text font-semibold">Descrição</span></label>
                     <input id="description" name="description" type="text" maxlength="255"
                         placeholder="Detalhes opcionais" class="input input-bordered w-full" />
                 </div>
             </div>
 
             <div class="modal-action flex-col-reverse sm:flex-row gap-2 mt-6">
-                <button type="button" class="btn btn-ghost"
-                    onclick="document.getElementById('modal-nova-transacao').close()">Cancelar</button>
-                <button type="submit" class="btn btn-primary">Cadastrar transação</button>
+                <button type="button" class="btn btn-ghost" id="btn-cancel">Cancelar</button>
+                <button type="submit" id="btn-submit" class="btn btn-primary">Cadastrar transação</button>
             </div>
         </form>
     </div>
@@ -298,56 +153,506 @@
         <button>close</button>
     </form>
 </dialog>
-<script>
-    async function ApiRequest(method, url) {
-        try {
-            const response = await fetch(`${url}`, {
-                method: method,
-                credentials: "same-origin",
-                headers: { "Content-Type": "application/json" }
-            });
-            if (!response.ok) {
-                throw new Error("Não foi possível comunicar com servidor");
-            }
-            const data = await response.json();
-            return data;
 
-        } catch (error) {
-            console.error(error);
+<script>
+    "use strict";
+
+    const API_URL = "/transactions/api/transactions/";
+    const ADD_URL = "/transactions/api/add";
+    const PAGE_SIZE = 5;
+
+    const elements = {
+        search: document.querySelector("#filter-search"),
+        startDate: document.querySelector("#filter-start-date"),
+        endDate: document.querySelector("#filter-end-date"),
+        filter: document.querySelector("#filter-submit"),
+        clear: document.querySelector("#filter-clear"),
+        desktop: document.querySelector("#transactions-list"),
+        mobile: document.querySelector("#transactions-mobile"),
+        pagination: document.querySelector("#pagination-controls"),
+        info: document.querySelector("#pagination-info"),
+        modal: document.querySelector("#modal-nova-transacao"),
+        form: document.querySelector("#form-transaction"),
+        formError: document.querySelector("#form-error"),
+        submit: document.querySelector("#btn-submit"),
+        cancel: document.querySelector("#btn-cancel"),
+        type: document.querySelector("#type"),
+        category: document.querySelector("#category")
+    };
+
+    const TYPES = {
+        credit: { label: "Receita", badge: "badge-success", text: "text-success", sign: "+ " },
+        debit:  { label: "Despesa", badge: "badge-error",   text: "text-error",   sign: "- " }
+    };
+    const DEFAULT_TYPE = { label: "Outro", badge: "badge-ghost", text: "", sign: "" };
+
+    const CATEGORIES = {
+        // Despesas
+        housing: "Moradia",
+        food: "Alimentação",
+        transport: "Transporte",
+        health: "Saúde",
+        education: "Educação",
+        leisure: "Lazer",
+        shopping: "Compras",
+        travel: "Viagem",
+        investment: "Investimento",
+        debt: "Dívida / Empréstimo",
+        transfer: "Transferência",
+        work: "Trabalho / Freelance",
+        other: "Outros",
+        // Receitas
+        work_wage: "Trabalho / Salário",
+        freelance: "Freelance / Extra",
+        investment_return: "Retorno de Investimento",
+        transfer_received: "Transferências Recebidas",
+        other_income: "Outras Receitas"
+    };
+
+    const CATEGORIES_BY_TYPE = {
+        debit: [
+            "housing", "food", "transport", "health", "education", "leisure",
+            "shopping", "travel", "investment", "debt", "transfer", "work", "other"
+        ],
+        credit: [
+            "work_wage", "freelance", "investment_return", "transfer_received", "other_income"
+        ]
+    };
+
+    const currencyFormatter = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
+
+    const dateFormatter = new Intl.DateTimeFormat("pt-BR", {
+        timeZone: "America/Sao_Paulo",
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+
+    let currentPage = 1;
+    let currentRequest = null;
+
+    /* ---------- Helpers ---------- */
+
+    const createElement = (tag, className = "", text = "") => {
+        const element = document.createElement(tag);
+        element.className = className;
+        element.textContent = text;
+        return element;
+    };
+
+    const getType = transaction => TYPES[transaction.type] || DEFAULT_TYPE;
+    const getCategory = transaction => CATEGORIES[transaction.category] || transaction.category || "—";
+
+    function formatDate(value) {
+        const date = new Date(value);
+        return Number.isNaN(date.getTime()) ? "Data inválida" : dateFormatter.format(date);
+    }
+
+    function formatCurrency(value) {
+        return currencyFormatter.format(Number(value) || 0);
+    }
+
+    function showMessage(message, container, isTable = false) {
+        container.replaceChildren();
+
+        if (isTable) {
+            const row = document.createElement("tr");
+            const cell = createElement("td", "p-6 text-center text-base-content/60", message);
+            cell.colSpan = 5;
+            row.append(cell);
+            container.append(row);
+        } else {
+            container.append(createElement("p", "p-6 text-center text-base-content/60", message));
         }
     }
 
+    /* ---------- Skeleton ---------- */
 
-    async function LoadDashboard() {
-        const response_api = await ApiRequest("GET", "/transactions/api/transactions/");
-        // Proteção caso a API falhe ou retorne null
-        if (!response_api) return
-        console.log(response_api)
-        response_api.results.forEach(transaction => {
-            const element_lauch = `
-                    <tr>
-                        <td class="font-semibold">${transaction.title}</td>
-                        <td><span class="badge badge-ghost badge-sm">Trabalho</span></td>
-
-                        <td>${new Date(transaction.created).toLocaleString("pt-BR", {
-                            timeZone: "America/Sao_Paulo",
-                            day: "2-digit",
-                            month: "2-digit",
-                            year: "numeric",
-                            hour: "2-digit",
-                            minute: "2-digit"
-                        })}
-                        </td>
-
-                        <td><span class="badge ${transaction.type === "credit" ? "badge-success" : "badge-error"} badge-outline">${transaction.type}</span></td>
-                        <td class="text-right font-semibold ${transaction.type === "credit" ? "text-success" : "text-error"}">${transaction.type === "credit" ? "+" : "-"} R$ ${transaction.amount}</td>
-                    </tr>`
-
-            document.querySelector("#transactions-list").insertAdjacentHTML("beforeend", element_lauch);
-
-        });
+    function skeletonBar(widthClass, heightClass = "h-4") {
+        return createElement("div", `skeleton ${heightClass} ${widthClass}`);
     }
-    LoadDashboard();
 
+    function createSkeletonRow() {
+        const row = document.createElement("tr");
+        const widths = ["w-32", "w-24", "w-28", "w-20", "w-24"];
+
+        widths.forEach((width, index) => {
+            const cell = document.createElement("td");
+            if (index === widths.length - 1) cell.className = "text-right";
+            const bar = skeletonBar(width);
+            if (index === widths.length - 1) bar.classList.add("ml-auto");
+            cell.append(bar);
+            row.append(cell);
+        });
+
+        return row;
+    }
+
+    function createSkeletonCard() {
+        const article = createElement("article", "p-4");
+        const container = createElement("div", "flex justify-between items-start gap-3");
+
+        const left = createElement("div", "flex flex-col gap-2");
+        left.append(skeletonBar("w-32"), skeletonBar("w-40", "h-3"));
+
+        const right = createElement("div", "flex flex-col items-end gap-2");
+        right.append(skeletonBar("w-16", "h-5"), skeletonBar("w-24"));
+
+        container.append(left, right);
+        article.append(container);
+        return article;
+    }
+
+    function showSkeleton() {
+        const desktopFragment = document.createDocumentFragment();
+        const mobileFragment = document.createDocumentFragment();
+
+        for (let i = 0; i < PAGE_SIZE; i++) {
+            desktopFragment.append(createSkeletonRow());
+            mobileFragment.append(createSkeletonCard());
+        }
+
+        elements.desktop.replaceChildren(desktopFragment);
+        elements.mobile.replaceChildren(mobileFragment);
+        elements.pagination.replaceChildren();
+        elements.info.textContent = "Carregando transações...";
+    }
+
+    /* ---------- Renderização ---------- */
+
+    function createTransactionRow(transaction) {
+        const type = getType(transaction);
+        const row = document.createElement("tr");
+
+        const title = createElement("td", "font-semibold", transaction.title);
+
+        const category = document.createElement("td");
+        category.append(createElement("span", "badge badge-ghost badge-sm", getCategory(transaction)));
+
+        const date = createElement("td", "", formatDate(transaction.created));
+
+        const typeCell = document.createElement("td");
+        typeCell.append(createElement("span", `badge ${type.badge} badge-outline`, type.label));
+
+        const amount = createElement(
+            "td",
+            `text-right font-semibold ${type.text}`,
+            `${type.sign}${formatCurrency(transaction.amount)}`
+        );
+
+        row.append(title, category, date, typeCell, amount);
+        return row;
+    }
+
+    function createTransactionCard(transaction) {
+        const type = getType(transaction);
+        const article = createElement("article", "p-4");
+        const container = createElement("div", "flex justify-between items-start gap-3");
+
+        const details = createElement("div", "min-w-0");
+        const title = createElement("h3", "font-semibold break-words", transaction.title);
+        const metadata = createElement("div", "flex items-center gap-2 mt-1 flex-wrap");
+        metadata.append(
+            createElement("span", "badge badge-ghost badge-xs", getCategory(transaction)),
+            createElement("span", "text-xs text-base-content/50", formatDate(transaction.created))
+        );
+        details.append(title, metadata);
+
+        const values = createElement("div", "text-right shrink-0");
+        values.append(
+            createElement("span", `badge ${type.badge} badge-outline`, type.label),
+            createElement(
+                "p",
+                `font-bold mt-2 ${type.text}`,
+                `${type.sign}${formatCurrency(transaction.amount)}`
+            )
+        );
+
+        container.append(details, values);
+        article.append(container);
+        return article;
+    }
+
+    function renderTransactions(transactions) {
+        if (!transactions.length) {
+            showMessage("Nenhuma transação encontrada.", elements.desktop, true);
+            showMessage("Nenhuma transação encontrada.", elements.mobile);
+            return;
+        }
+
+        const desktopFragment = document.createDocumentFragment();
+        const mobileFragment = document.createDocumentFragment();
+
+        transactions.forEach(transaction => {
+            desktopFragment.append(createTransactionRow(transaction));
+            mobileFragment.append(createTransactionCard(transaction));
+        });
+
+        elements.desktop.replaceChildren(desktopFragment);
+        elements.mobile.replaceChildren(mobileFragment);
+    }
+
+    function renderPagination(data) {
+        const totalPages = Math.ceil(data.count / PAGE_SIZE);
+        const fragment = document.createDocumentFragment();
+
+        const createButton = (label, page, disabled = false, active = false) => {
+            const button = createElement(
+                "button",
+                `join-item btn btn-sm ${active ? "btn-active" : ""}`,
+                label
+            );
+            button.type = "button";
+            button.disabled = disabled;
+            button.addEventListener("click", () => loadTransactions(page));
+            fragment.append(button);
+        };
+
+        createButton("«", currentPage - 1, !data.previous);
+
+        for (let page = 1; page <= totalPages; page++) {
+            if (page === 1 || page === totalPages || Math.abs(page - currentPage) <= 1) {
+                createButton(String(page), page, false, page === currentPage);
+            } else if (page === currentPage - 2 || page === currentPage + 2) {
+                fragment.append(createElement("span", "join-item btn btn-sm btn-disabled", "..."));
+            }
+        }
+
+        createButton("»", currentPage + 1, !data.next);
+
+        elements.pagination.replaceChildren(fragment);
+
+        const start = data.count ? (currentPage - 1) * PAGE_SIZE + 1 : 0;
+        const end = Math.min(currentPage * PAGE_SIZE, data.count);
+
+        elements.info.textContent = `Mostrando ${start}–${end} de ${data.count} transações`;
+    }
+
+    /* ---------- Carregar lista ---------- */
+
+    async function loadTransactions(page = 1) {
+        if (currentRequest) currentRequest.abort();
+
+        const controller = new AbortController();
+        currentRequest = controller;
+        currentPage = page;
+
+        const params = new URLSearchParams({
+            page: String(page),
+            page_size: String(PAGE_SIZE)
+        });
+
+        const search = elements.search.value.trim();
+        const startDate = elements.startDate.value;
+        const endDate = elements.endDate.value;
+
+        if (search) params.set("search", search);
+        if (startDate) params.set("start_date", startDate);
+        if (endDate) params.set("end_date", endDate);
+
+        elements.filter.disabled = true;
+        showSkeleton();
+
+        try {
+            const response = await fetch(`${API_URL}?${params}`, {
+                method: "GET",
+                credentials: "same-origin",
+                headers: { "Accept": "application/json" },
+                signal: controller.signal
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erro HTTP: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            if (!Array.isArray(data.results)) {
+                throw new Error("Formato de resposta inválido.");
+            }
+
+            renderTransactions(data.results);
+            renderPagination(data);
+
+        } catch (error) {
+            if (error.name === "AbortError") return;
+
+            console.error("Erro ao carregar transações:", error);
+            showMessage("Não foi possível carregar as transações.", elements.desktop, true);
+            showMessage("Não foi possível carregar as transações.", elements.mobile);
+            elements.pagination.replaceChildren();
+            elements.info.textContent = "Erro ao carregar dados.";
+
+        } finally {
+            if (!controller.signal.aborted) {
+                elements.filter.disabled = false;
+            }
+        }
+    }
+
+    /* ---------- Filtros ---------- */
+
+    function applyFilters() {
+        const startDate = elements.startDate.value;
+        const endDate = elements.endDate.value;
+
+        if (startDate && endDate && startDate > endDate) {
+            alert("A data inicial não pode ser maior que a data final.");
+            return;
+        }
+
+        loadTransactions(1);
+    }
+
+    function clearFilters() {
+        elements.search.value = "";
+        elements.startDate.value = "";
+        elements.endDate.value = "";
+        loadTransactions(1);
+    }
+
+    elements.filter.addEventListener("click", applyFilters);
+    elements.clear.addEventListener("click", clearFilters);
+
+    elements.search.addEventListener("keydown", event => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            applyFilters();
+        }
+    });
+
+    /* ---------- Modal: categorias por tipo ---------- */
+
+    function populateCategories(type) {
+        const keys = CATEGORIES_BY_TYPE[type] || [];
+        const fragment = document.createDocumentFragment();
+
+        const placeholder = createElement("option", "", "Selecione a categoria");
+        placeholder.value = "";
+        placeholder.disabled = true;
+        placeholder.selected = true;
+        fragment.append(placeholder);
+
+        keys.forEach(key => {
+            const option = createElement("option", "", CATEGORIES[key]);
+            option.value = key;
+            fragment.append(option);
+        });
+
+        elements.category.replaceChildren(fragment);
+        elements.category.disabled = keys.length === 0;
+    }
+
+    elements.type.addEventListener("change", () => populateCategories(elements.type.value));
+
+    function resetForm() {
+        elements.form.reset();
+        const placeholder = createElement("option", "", "Selecione o tipo primeiro");
+        placeholder.value = "";
+        placeholder.disabled = true;
+        placeholder.selected = true;
+        elements.category.replaceChildren(placeholder);
+        elements.category.disabled = true;
+        hideFormError();
+    }
+
+    function showFormError(message) {
+        elements.formError.textContent = message;
+        elements.formError.classList.remove("hidden");
+    }
+
+    function hideFormError() {
+        elements.formError.textContent = "";
+        elements.formError.classList.add("hidden");
+    }
+
+    function parseApiErrors(data) {
+        if (!data || typeof data !== "object") return "Não foi possível cadastrar a transação.";
+
+        const labels = {
+            title: "Título",
+            amount: "Valor",
+            type: "Tipo",
+            category: "Categoria",
+            description: "Descrição"
+        };
+
+        const messages = Object.entries(data).map(([field, errors]) => {
+            const text = Array.isArray(errors) ? errors.join(" ") : String(errors);
+            const label = labels[field];
+            return label ? `${label}: ${text}` : text;
+        });
+
+        return messages.join(" | ") || "Não foi possível cadastrar a transação.";
+    }
+
+    /* ---------- Modal: envio ---------- */
+
+    elements.cancel.addEventListener("click", () => {
+        elements.modal.close();
+    });
+
+    elements.modal.addEventListener("close", resetForm);
+
+    elements.form.addEventListener("submit", async event => {
+        event.preventDefault();
+        hideFormError();
+
+        if (!elements.form.checkValidity()) {
+            elements.form.reportValidity();
+            return;
+        }
+
+        const formData = new FormData(elements.form);
+        const payload = {
+            title: formData.get("title").trim(),
+            amount: Number(formData.get("amount")),
+            type: formData.get("type"),
+            category: formData.get("category")
+        };
+
+        const description = formData.get("description").trim();
+        if (description) payload.description = description;
+
+        elements.submit.disabled = true;
+        elements.submit.classList.add("loading");
+
+        try {
+            const response = await fetch(ADD_URL, {
+                method: "POST",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "X-CSRFToken": formData.get("csrfmiddlewaretoken")
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                let errorData = null;
+                try { errorData = await response.json(); } catch (_) { /* resposta sem JSON */ }
+                showFormError(parseApiErrors(errorData));
+                return;
+            }
+
+            elements.modal.close();
+            await loadTransactions(1);
+
+        } catch (error) {
+            console.error("Erro ao cadastrar transação:", error);
+            showFormError("Erro de conexão com o servidor. Tente novamente.");
+
+        } finally {
+            elements.submit.disabled = false;
+            elements.submit.classList.remove("loading");
+        }
+    });
+
+    /* ---------- Inicialização ---------- */
+
+    loadTransactions();
 </script>
 {% endblock %}
