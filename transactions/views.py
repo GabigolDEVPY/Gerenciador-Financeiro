@@ -9,6 +9,16 @@ from rest_framework.pagination import PageNumberPagination
 from .models import Transaction
 from django.utils.dateparse import parse_date
 from django.db.models import Sum, Q, Count, Value, DecimalField
+    
+from rest_framework.generics import CreateAPIView
+from rest_framework.permissions import IsAuthenticated
+
+from .models import FixedTransaction
+from .serializers import FixedTransactionSerializer
+from .fixed_transactions_services import process_fixed_transactions
+
+
+
 
 class TransactionsViewTemplate(LoginRequiredMixin, TemplateView):
     template_name = "transactions.html"
@@ -72,3 +82,13 @@ class ReturnTransactionsView(generics.ListAPIView):
 
         return queryset.order_by("-created", "-id")
     
+
+
+
+class CreateFixedTransactionView(CreateAPIView):
+
+    serializer_class = FixedTransactionSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
