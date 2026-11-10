@@ -48,6 +48,8 @@ class Transaction(models.Model):
     def __str__(self):
         return f"account: {self.owner}, amount: {self.amount}"
 
+
+
 class FixedTransaction(models.Model):
 
     class RecurrenceType(models.TextChoices):
@@ -140,6 +142,7 @@ class FixedTransaction(models.Model):
                 name="fixed_recurrence_valid"
             )
         ]
+        
 
     def calculate_next_date(self, current_date):
         if self.recurrence_type == self.RecurrenceType.INTERVAL:
