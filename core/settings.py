@@ -37,7 +37,7 @@ LOGIN_URL = "account:login"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["gabigolbr38.pythonanywhere.com",]
 
 
 REST_FRAMEWORK = {
