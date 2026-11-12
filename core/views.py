@@ -7,5 +7,6 @@ class HomeViewTemplate(LoginRequiredMixin, TemplateView):
     template_name = "home.html"
 
     def dispatch(self, request, *args, **kwargs):
-        process_due_fixed_transactions(request.user)
+        if request.user.is_authenticated:
+            process_due_fixed_transactions(request.user)
         return super().dispatch(request, *args, **kwargs)
