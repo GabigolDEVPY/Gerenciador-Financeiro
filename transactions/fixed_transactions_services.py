@@ -68,7 +68,7 @@ def process_due_fixed_transactions(owner):
 
     Retorna o total de lançamentos criados.
     """
-    if not owner or not getattr(owner, "is_authenticated", lambda: False)():
+    if not getattr(owner, "is_authenticated", False):
         return 0
 
     today = timezone.localdate()
