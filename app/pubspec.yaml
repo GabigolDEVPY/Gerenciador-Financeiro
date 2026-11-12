@@ -18,11 +18,21 @@ dependencies:
   google_fonts: ^6.2.1
   flutter_animate: ^4.5.0
   iconsax: ^0.0.8
+  connectivity_plus: ^7.3.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
+  flutter_launcher_icons: ^0.14.4
 
 flutter:
   uses-material-design: true
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: ../icon/c9fe43f2-e86d-4712-8613-ebc89c2b73cf.png
+  adaptive_icon_background: '#03110B'
+  adaptive_icon_foreground: ../icon/c9fe43f2-e86d-4712-8613-ebc89c2b73cf.png
+  remove_alpha_ios: true

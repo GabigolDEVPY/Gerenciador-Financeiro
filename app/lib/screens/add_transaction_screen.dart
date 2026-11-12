@@ -9,7 +9,9 @@ import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
 
 class AddTransactionScreen extends StatefulWidget {
-  const AddTransactionScreen({super.key});
+  final Transaction? transaction;
+
+  const AddTransactionScreen({super.key, this.transaction});
 
   @override
   State<AddTransactionScreen> createState() => _AddTransactionScreenState();
@@ -23,6 +25,19 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
 
   String _type = 'debit';
   String _category = 'food';
+
+  @override
+  void initState() {
+    super.initState();
+    final transaction = widget.transaction;
+    if (transaction != null) {
+      _titleController.text = transaction.title;
+      _amountController.text = transaction.amount.toStringAsFixed(2);
+      _descriptionController.text = transaction.description;
+      _type = transaction.type;
+      _category = transaction.category;
+    }
+  }
 
   final List<Map<String, dynamic>> _categories = [
     {'value': 'housing', 'label': 'Moradia', 'icon': Icons.home_rounded},
@@ -180,22 +195,29 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
     }
 
     final transaction = Transaction(
+      id: widget.transaction?.id,
       amount: amount,
       title: _titleController.text.trim(),
       description: _descriptionController.text.trim(),
       category: _category,
       type: _type,
+      createdAt: widget.transaction?.createdAt,
     );
 
     final token = context.read<AuthProvider>().token;
     if (token == null) return;
 
     final provider = context.read<TransactionProvider>();
-    final success = await provider.addTransaction(token, transaction);
+    final success = widget.transaction == null
+        ? await provider.addTransaction(token, transaction)
+        : await provider.updateTransaction(token, transaction);
 
     if (!mounted) return;
 
     if (success) {
+      if (widget.transaction != null) {
+        Navigator.of(context).pop();
+      }
       _titleController.clear();
       _amountController.clear();
       _descriptionController.clear();
@@ -205,8 +227,15 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
       });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Transação adicionada com sucesso!'),
-          backgroundColor: AppColors.income,
+          content: Text(
+            provider.hasPendingChanges
+                ? 'Salvo no dispositivo; aguardando sincronização.'
+                : widget.transaction == null
+                    ? 'Transação adicionada com sucesso.'
+                    : 'Transação atualizada com sucesso.',
+          ),
+          backgroundColor:
+              provider.hasPendingChanges ? AppColors.warning : AppColors.income,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -239,18 +268,23 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Nova transação',
-                style: TextStyle(
+              Text(
+                widget.transaction == null
+                    ? 'Nova transação'
+                    : 'Editar transação',
+                style: const TextStyle(
                   fontSize: 26,
                   fontWeight: FontWeight.w800,
                   color: AppColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 8),
-              const Text(
-                'Registre uma entrada ou saída',
-                style: TextStyle(fontSize: 14, color: AppColors.textSecondary),
+              Text(
+                widget.transaction == null
+                    ? 'Registre uma entrada ou saída'
+                    : 'Atualize os dados da transação',
+                style: const TextStyle(
+                    fontSize: 14, color: AppColors.textSecondary),
               ),
               const SizedBox(height: 28),
 
@@ -390,7 +424,9 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
               const SizedBox(height: 36),
 
               CustomButton(
-                text: 'Adicionar transação',
+                text: widget.transaction == null
+                    ? 'Adicionar transação'
+                    : 'Salvar alterações',
                 isLoading: txProvider.isLoading,
                 onPressed: _submit,
                 icon: Icons.check_rounded,

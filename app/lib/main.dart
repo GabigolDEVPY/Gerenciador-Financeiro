@@ -38,10 +38,41 @@ class FinanceApp extends StatelessWidget {
             seedColor: AppColors.primary,
             brightness: Brightness.light,
             primary: AppColors.primary,
+            secondary: AppColors.primaryDark,
+            tertiary: AppColors.secondary,
             surface: AppColors.background,
           ),
           scaffoldBackgroundColor: AppColors.background,
-          textTheme: GoogleFonts.interTextTheme(),
+          textTheme: GoogleFonts.dmSansTextTheme().apply(
+            bodyColor: AppColors.textPrimary,
+            displayColor: AppColors.textPrimary,
+          ),
+          cardTheme: CardThemeData(
+            color: AppColors.card,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+              side: const BorderSide(color: Color(0xFFE2E8F0)),
+            ),
+          ),
+          inputDecorationTheme: InputDecorationTheme(
+            filled: true,
+            fillColor: AppColors.card,
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: Color(0xFFCBD5E1)),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: Color(0xFFCBD5E1)),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: AppColors.primary, width: 2),
+            ),
+          ),
           appBarTheme: const AppBarTheme(
             backgroundColor: Colors.transparent,
             elevation: 0,

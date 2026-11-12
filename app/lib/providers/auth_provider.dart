@@ -75,6 +75,15 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> expireSession() async {
+    _token = null;
+    _username = null;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(AppConstants.tokenKey);
+    await prefs.remove(AppConstants.usernameKey);
+    notifyListeners();
+  }
+
   void clearError() {
     _error = null;
     notifyListeners();

@@ -34,10 +34,10 @@ class BalanceCard extends StatelessWidget {
           colors: [
             AppColors.primary,
             AppColors.primaryDark,
-            Color(0xFF3B2F6B),
+            AppColors.secondary,
           ],
         ),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
             color: AppColors.primary.withValues(alpha: 0.35),
@@ -64,7 +64,7 @@ class BalanceCard extends StatelessWidget {
               color: Colors.white,
               fontSize: 32,
               fontWeight: FontWeight.w800,
-              letterSpacing: -0.5,
+              letterSpacing: 0,
             ),
           ),
           const SizedBox(height: 24),

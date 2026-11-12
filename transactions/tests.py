@@ -6,8 +6,9 @@ from unittest.mock import patch
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.utils import timezone
+from rest_framework.test import APIClient
 
-from transactions.models import Transaction
+from transactions.models import FixedTransaction, Transaction
 from transactions.services import TransactionsService
 
 
@@ -214,3 +215,79 @@ class TransactionsServiceTests(TestCase):
         )
 
         self.assertEqual(len(categories), 4)
+
+
+class TransactionDetailApiTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username="apiuser", password="test123")
+        self.other_user = User.objects.create_user(
+            username="otheruser", password="test123"
+        )
+        self.transaction = Transaction.objects.create(
+            owner=self.user,
+            amount=Decimal("25.00"),
+            title="Almoço",
+            category=Transaction.Category.FOOD,
+            type=Transaction.Type.DEBIT,
+        )
+        self.client = APIClient()
+        self.client.force_authenticate(user=self.user)
+        self.url = f"/transactions/api/transactions/{self.transaction.id}/"
+
+    def test_owner_can_update_and_delete_transaction(self):
+        response = self.client.patch(self.url, {"title": "Almoço de trabalho"})
+
+        self.assertEqual(response.status_code, 200)
+        self.transaction.refresh_from_db()
+        self.assertEqual(self.transaction.title, "Almoço de trabalho")
+
+        response = self.client.delete(self.url)
+
+        self.assertEqual(response.status_code, 204)
+        self.assertFalse(Transaction.objects.filter(pk=self.transaction.pk).exists())
+
+    def test_user_cannot_modify_another_users_transaction(self):
+        self.client.force_authenticate(user=self.other_user)
+
+        response = self.client.patch(self.url, {"title": "Alteração indevida"})
+
+        self.assertEqual(response.status_code, 404)
+        self.transaction.refresh_from_db()
+        self.assertEqual(self.transaction.title, "Almoço")
+
+    def test_create_is_idempotent_for_the_same_client_id(self):
+        payload = {
+            "client_id": "offline-create-1",
+            "amount": "25.00",
+            "title": "Almoço",
+            "category": Transaction.Category.FOOD,
+            "type": Transaction.Type.DEBIT,
+        }
+        response = self.client.post("/transactions/api/add", payload)
+        repeated_response = self.client.post("/transactions/api/add", payload)
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(repeated_response.status_code, 200)
+        self.assertEqual(response.data["id"], repeated_response.data["id"])
+        self.assertEqual(Transaction.objects.filter(owner=self.user).count(), 2)
+
+    def test_create_fixed_transaction_is_idempotent(self):
+        payload = {
+            "client_id": "offline-fixed-1",
+            "title": "Internet",
+            "amount": "99.00",
+            "category": Transaction.Category.OTHER,
+            "type": Transaction.Type.DEBIT,
+            "recurrence_type": "monthly",
+            "start_date": "2026-12-01",
+            "day_of_month": 1,
+            "occurrences": 12,
+        }
+        url = "/transactions/api/fixed/create/"
+        response = self.client.post(url, payload)
+        repeated_response = self.client.post(url, payload)
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(repeated_response.status_code, 200)
+        self.assertEqual(response.data["id"], repeated_response.data["id"])
+        self.assertEqual(FixedTransaction.objects.filter(owner=self.user).count(), 1)

@@ -38,7 +38,7 @@
                 </li>
 
                 <li>
-                    <a href=""
+                    <a href="{% url 'transactions:fixed_transactions_page' %}"
                        class="{% if ns == 'transactions' and name == 'fixed_home' %}nav-active{% endif %}"
                        {% if ns == 'transactions' and name == 'fixed_home' %}aria-current="page"{% endif %}>
                         Lançamentos Fixos
@@ -76,7 +76,7 @@
             </li>
 
             <li>
-                <a href=""
+                <a href="{% url 'transactions:fixed_transactions_page' %}"
                    class="{% if ns == 'transactions' and name == 'fixed_home' %}nav-active{% endif %}"
                    {% if ns == 'transactions' and name == 'fixed_home' %}aria-current="page"{% endif %}>
                     Lançamentos Fixos

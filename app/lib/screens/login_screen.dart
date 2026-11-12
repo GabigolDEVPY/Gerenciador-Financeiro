@@ -48,7 +48,8 @@ class _LoginScreenState extends State<LoginScreen> {
           content: Text(auth.error ?? 'Erro ao fazer login'),
           backgroundColor: AppColors.expense,
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),
       );
     }
@@ -99,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       fontSize: 28,
                       fontWeight: FontWeight.w800,
                       color: AppColors.textPrimary,
-                      letterSpacing: -0.5,
+                      letterSpacing: 0,
                     ),
                   ),
                   const SizedBox(height: 8),

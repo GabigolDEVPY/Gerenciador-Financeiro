@@ -1,5 +1,6 @@
 class Transaction {
   final int? id;
+  final String? clientId;
   final double amount;
   final String title;
   final String description;
@@ -9,6 +10,7 @@ class Transaction {
 
   Transaction({
     this.id,
+    this.clientId,
     required this.amount,
     required this.title,
     required this.description,
@@ -16,6 +18,27 @@ class Transaction {
     required this.type,
     this.createdAt,
   });
+
+  Transaction copyWith({
+    int? id,
+    String? clientId,
+    double? amount,
+    String? title,
+    String? description,
+    String? category,
+    String? type,
+    DateTime? createdAt,
+  }) =>
+      Transaction(
+        id: id ?? this.id,
+        clientId: clientId ?? this.clientId,
+        amount: amount ?? this.amount,
+        title: title ?? this.title,
+        description: description ?? this.description,
+        category: category ?? this.category,
+        type: type ?? this.type,
+        createdAt: createdAt ?? this.createdAt,
+      );
 
   factory Transaction.fromJson(Map<String, dynamic> json) {
     final rawCreated = json['created'] ??
@@ -25,6 +48,7 @@ class Transaction {
 
     return Transaction(
       id: json['id'] is num ? (json['id'] as num).toInt() : null,
+      clientId: json['client_id']?.toString(),
       amount: _toDouble(json['amount']),
       title: (json['title'] ?? '').toString(),
       description: (json['description'] ?? '').toString(),
@@ -37,6 +61,7 @@ class Transaction {
 
   Map<String, dynamic> toJson() {
     return {
+      if (clientId != null) 'client_id': clientId,
       'amount': amount,
       'title': title,
       'description': description,
@@ -66,6 +91,7 @@ class DashboardData {
   final int creditCount;
   final int debitCount;
   final List<Transaction> recentTransactions;
+  final List<Map<String, dynamic>> categories;
   final Map<String, dynamic>? extra;
 
   DashboardData({
@@ -76,6 +102,7 @@ class DashboardData {
     required this.creditCount,
     required this.debitCount,
     required this.recentTransactions,
+    this.categories = const [],
     this.extra,
   });
 
@@ -92,6 +119,14 @@ class DashboardData {
           .map((e) => Transaction.fromJson(e as Map<String, dynamic>))
           .toList();
     }
+
+    final categoriesJson = json['transactions_categories'];
+    final categories = categoriesJson is List
+        ? categoriesJson
+            .whereType<Map>()
+            .map((item) => Map<String, dynamic>.from(item))
+            .toList()
+        : <Map<String, dynamic>>[];
 
     double income = _toDouble(json['total_credit'] ??
         json['income'] ??
@@ -128,6 +163,7 @@ class DashboardData {
       creditCount: creditCount,
       debitCount: debitCount,
       recentTransactions: txs,
+      categories: categories,
       extra: json,
     );
   }

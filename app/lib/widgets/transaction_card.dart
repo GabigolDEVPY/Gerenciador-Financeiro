@@ -5,8 +5,17 @@ import '../utils/constants.dart';
 
 class TransactionCard extends StatelessWidget {
   final Transaction transaction;
+  final bool isPending;
+  final VoidCallback? onEdit;
+  final VoidCallback? onDelete;
 
-  const TransactionCard({super.key, required this.transaction});
+  const TransactionCard({
+    super.key,
+    required this.transaction,
+    this.isPending = false,
+    this.onEdit,
+    this.onDelete,
+  });
 
   IconData _getCategoryIcon(String category) {
     switch (category.toLowerCase()) {
@@ -93,7 +102,7 @@ class TransactionCard extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: AppColors.card,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.04),
@@ -141,6 +150,24 @@ class TransactionCard extends StatelessWidget {
                     color: AppColors.textSecondary,
                   ),
                 ),
+                if (isPending) ...[
+                  const SizedBox(height: 4),
+                  const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.cloud_upload_outlined,
+                          size: 13, color: AppColors.warning),
+                      SizedBox(width: 4),
+                      Text(
+                        'Aguardando sincronização',
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: AppColors.warning,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ],
             ),
           ),
@@ -167,6 +194,34 @@ class TransactionCard extends StatelessWidget {
               ],
             ],
           ),
+          if (onEdit != null || onDelete != null)
+            PopupMenuButton<String>(
+              tooltip: 'Ações da transação',
+              onSelected: (action) {
+                if (action == 'edit') onEdit?.call();
+                if (action == 'delete') onDelete?.call();
+              },
+              itemBuilder: (context) => [
+                if (onEdit != null)
+                  const PopupMenuItem(
+                    value: 'edit',
+                    child: ListTile(
+                      dense: true,
+                      leading: Icon(Icons.edit_outlined),
+                      title: Text('Editar'),
+                    ),
+                  ),
+                if (onDelete != null)
+                  const PopupMenuItem(
+                    value: 'delete',
+                    child: ListTile(
+                      dense: true,
+                      leading: Icon(Icons.delete_outline),
+                      title: Text('Excluir'),
+                    ),
+                  ),
+              ],
+            ),
         ],
       ),
     );

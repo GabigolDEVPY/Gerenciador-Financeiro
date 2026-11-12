@@ -1,0 +1,675 @@
+{% extends "base.html" %}
+
+{% block title %}FinControl · Transações fixas{% endblock %}
+
+{% block content %}
+<!-- Cabeçalho -->
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+    <div>
+        <h1 class="text-2xl sm:text-3xl font-bold">Transações fixas</h1>
+        <p class="text-base-content/60 mt-1">Receitas e despesas que se repetem automaticamente.</p>
+    </div>
+    <button type="button" id="btn-new" class="btn btn-primary">+ Nova transação fixa</button>
+</div>
+
+<!-- Lista -->
+<section class="card bg-base-100 shadow-sm">
+    <div class="card-body p-0">
+
+        <div class="px-5 sm:px-6 pt-5 pb-2">
+            <h2 class="card-title text-xl">Recorrências cadastradas</h2>
+            <p id="summary" class="text-sm text-base-content/60">Carregando...</p>
+        </div>
+
+        <!-- Tabela Desktop -->
+        <div class="hidden md:block overflow-x-auto">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Categoria</th>
+                        <th>Recorrência</th>
+                        <th>Próximo lançamento</th>
+                        <th>Progresso</th>
+                        <th class="text-right">Valor</th>
+                        <th>Ativa</th>
+                        <th class="text-right">Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="fixed-list"></tbody>
+            </table>
+        </div>
+
+        <!-- Cards Mobile -->
+        <div id="fixed-mobile" class="md:hidden divide-y divide-base-300"></div>
+
+        <div class="h-4"></div>
+    </div>
+</section>
+
+<!-- MODAL: criar / editar -->
+<dialog id="modal-fixed" class="modal">
+    <div class="modal-box w-11/12 max-w-2xl">
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" aria-label="Fechar">✕</button>
+        </form>
+
+        <h3 id="modal-title" class="font-bold text-xl mb-1">Nova transação fixa</h3>
+        <p class="text-sm text-base-content/60 mb-6">Defina o valor, a frequência e quantas vezes ela se repete.</p>
+
+        <div id="form-error" class="alert alert-error text-sm mb-4 hidden" role="alert"></div>
+
+        <form id="form-fixed" novalidate class="space-y-4">
+            {% csrf_token %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="form-control">
+                    <label for="title" class="label"><span class="label-text font-semibold">Título</span></label>
+                    <input id="title" name="title" type="text" maxlength="50" placeholder="Ex.: Aluguel"
+                        class="input input-bordered w-full" required />
+                </div>
+                <div class="form-control">
+                    <label for="amount" class="label"><span class="label-text font-semibold">Valor (R$)</span></label>
+                    <input id="amount" name="amount" type="number" min="0.01" max="999999.99" step="0.01"
+                        placeholder="0,00" class="input input-bordered w-full" required />
+                </div>
+                <div class="form-control">
+                    <label for="type" class="label"><span class="label-text font-semibold">Tipo de transação</span></label>
+                    <select id="type" name="type" class="select select-bordered w-full" required>
+                        <option value="" disabled selected>Selecione o tipo</option>
+                        <option value="credit">Receita</option>
+                        <option value="debit">Despesa</option>
+                    </select>
+                </div>
+                <div class="form-control">
+                    <label for="category" class="label"><span class="label-text font-semibold">Categoria</span></label>
+                    <select id="category" name="category" class="select select-bordered w-full" required disabled>
+                        <option value="" disabled selected>Selecione o tipo primeiro</option>
+                    </select>
+                </div>
+
+                <div class="form-control">
+                    <label for="recurrence_type" class="label"><span class="label-text font-semibold">Frequência</span></label>
+                    <select id="recurrence_type" name="recurrence_type" class="select select-bordered w-full" required>
+                        <option value="monthly" selected>Dia específico do mês</option>
+                        <option value="interval">Intervalo de dias</option>
+                    </select>
+                </div>
+                <div class="form-control" id="wrap-day">
+                    <label for="day_of_month" class="label"><span class="label-text font-semibold">Dia do mês</span></label>
+                    <input id="day_of_month" name="day_of_month" type="number" min="1" max="31" step="1"
+                        placeholder="1 a 31" class="input input-bordered w-full" />
+                </div>
+                <div class="form-control hidden" id="wrap-interval">
+                    <label for="interval_days" class="label"><span class="label-text font-semibold">A cada quantos dias</span></label>
+                    <input id="interval_days" name="interval_days" type="number" min="1" step="1"
+                        placeholder="Ex.: 15" class="input input-bordered w-full" />
+                </div>
+
+                <div class="form-control">
+                    <label for="start_date" class="label"><span class="label-text font-semibold">Primeiro lançamento</span></label>
+                    <input id="start_date" name="start_date" type="date" class="input input-bordered w-full" required />
+                    <p id="start-hint" class="text-xs text-base-content/50 mt-1 hidden">
+                        Não pode ser alterada: já existem lançamentos gerados.
+                    </p>
+                </div>
+                <div class="form-control">
+                    <label for="occurrences" class="label"><span class="label-text font-semibold">Quantidade de lançamentos</span></label>
+                    <input id="occurrences" name="occurrences" type="number" min="1" step="1" placeholder="Ex.: 12"
+                        class="input input-bordered w-full" required />
+                </div>
+
+                <div class="form-control sm:col-span-2">
+                    <label for="description" class="label"><span class="label-text font-semibold">Descrição</span></label>
+                    <input id="description" name="description" type="text" maxlength="255"
+                        placeholder="Detalhes opcionais" class="input input-bordered w-full" />
+                </div>
+            </div>
+
+            <div class="modal-action flex-col-reverse sm:flex-row gap-2 mt-6">
+                <button type="button" class="btn btn-ghost" id="btn-cancel">Cancelar</button>
+                <button type="submit" id="btn-submit" class="btn btn-primary">Salvar</button>
+            </div>
+        </form>
+    </div>
+    <form method="dialog" class="modal-backdrop"><button>close</button></form>
+</dialog>
+
+<!-- MODAL: confirmar exclusão -->
+<dialog id="modal-delete" class="modal">
+    <div class="modal-box">
+        <h3 class="font-bold text-lg">Excluir transação fixa?</h3>
+        <p id="delete-text" class="py-3 text-sm text-base-content/70"></p>
+        <p class="text-xs text-base-content/50">Os lançamentos que já foram gerados continuam no seu histórico.</p>
+        <div class="modal-action">
+            <button type="button" class="btn btn-ghost" id="btn-delete-cancel">Cancelar</button>
+            <button type="button" class="btn btn-error" id="btn-delete-confirm">Excluir</button>
+        </div>
+    </div>
+    <form method="dialog" class="modal-backdrop"><button>close</button></form>
+</dialog>
+
+<script>
+    "use strict";
+
+    // Ajuste este prefixo conforme o include do seu urls.py
+    const FIXED_URL = "/transactions/api/fixed/";
+
+    const $ = selector => document.querySelector(selector);
+
+    const el = {
+        desktop: $("#fixed-list"),
+        mobile: $("#fixed-mobile"),
+        summary: $("#summary"),
+        btnNew: $("#btn-new"),
+
+        modal: $("#modal-fixed"),
+        modalTitle: $("#modal-title"),
+        form: $("#form-fixed"),
+        formError: $("#form-error"),
+        submit: $("#btn-submit"),
+        cancel: $("#btn-cancel"),
+
+        type: $("#type"),
+        category: $("#category"),
+        recurrence: $("#recurrence_type"),
+        wrapDay: $("#wrap-day"),
+        wrapInterval: $("#wrap-interval"),
+        startDate: $("#start_date"),
+        startHint: $("#start-hint"),
+
+        deleteModal: $("#modal-delete"),
+        deleteText: $("#delete-text"),
+        deleteCancel: $("#btn-delete-cancel"),
+        deleteConfirm: $("#btn-delete-confirm")
+    };
+
+    const TYPES = {
+        credit: { label: "Receita", badge: "badge-success", text: "text-success", sign: "+ " },
+        debit:  { label: "Despesa", badge: "badge-error",   text: "text-error",   sign: "- " }
+    };
+    const DEFAULT_TYPE = { label: "Outro", badge: "badge-ghost", text: "", sign: "" };
+
+    const CATEGORIES = {
+        housing: "Moradia",
+        food: "Alimentação",
+        transport: "Transporte",
+        health: "Saúde",
+        education: "Educação",
+        leisure: "Lazer",
+        shopping: "Compras",
+        travel: "Viagem",
+        investment: "Investimento",
+        debt: "Dívida / Empréstimo",
+        transfer: "Transferência",
+        work: "Trabalho / Freelance",
+        other: "Outros",
+        work_wage: "Trabalho / Salário",
+        freelance: "Freelance / Extra",
+        investment_return: "Retorno de Investimento",
+        transfer_received: "Transferências Recebidas",
+        other_income: "Outras Receitas"
+    };
+
+    const CATEGORIES_BY_TYPE = {
+        debit: [
+            "housing", "food", "transport", "health", "education", "leisure",
+            "shopping", "travel", "investment", "debt", "transfer", "work", "other"
+        ],
+        credit: ["work_wage", "freelance", "investment_return", "transfer_received", "other_income"]
+    };
+
+    const currencyFormatter = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
+
+    let items = [];
+    let editingId = null;
+    let deletingItem = null;
+
+    /* ---------- Helpers ---------- */
+
+    const createElement = (tag, className = "", text = "") => {
+        const node = document.createElement(tag);
+        node.className = className;
+        node.textContent = text;
+        return node;
+    };
+
+    const getType = item => TYPES[item.type] || DEFAULT_TYPE;
+    const getCategory = item => CATEGORIES[item.category] || item.category || "—";
+    const formatCurrency = value => currencyFormatter.format(Number(value) || 0);
+
+    // DateField chega como "YYYY-MM-DD": formatar na mão evita deslocamento de fuso.
+    function formatDate(value) {
+        if (!value) return "—";
+        const [year, month, day] = value.split("-");
+        return `${day}/${month}/${year}`;
+    }
+
+    function formatRecurrence(item) {
+        if (item.recurrence_type === "interval") {
+            return item.interval_days === 1 ? "Todo dia" : `A cada ${item.interval_days} dias`;
+        }
+        return `Todo dia ${item.day_of_month}`;
+    }
+
+    const isFinished = item => item.generated_occurrences >= item.occurrences;
+
+    const getCsrf = () => el.form.querySelector("[name=csrfmiddlewaretoken]").value;
+
+    async function api(url, options = {}) {
+        const method = options.method || "GET";
+        const headers = { "Accept": "application/json" };
+
+        if (method !== "GET") headers["X-CSRFToken"] = getCsrf();
+        if (options.body) headers["Content-Type"] = "application/json";
+
+        return fetch(url, { credentials: "same-origin", ...options, headers });
+    }
+
+    async function readErrors(response) {
+        try { return await response.json(); } catch (_) { return null; }
+    }
+
+    function parseApiErrors(data) {
+        const fallback = "Não foi possível salvar a transação fixa.";
+        if (!data || typeof data !== "object") return fallback;
+
+        const labels = {
+            title: "Título",
+            amount: "Valor",
+            type: "Tipo",
+            category: "Categoria",
+            description: "Descrição",
+            recurrence_type: "Frequência",
+            interval_days: "Intervalo",
+            day_of_month: "Dia do mês",
+            start_date: "Primeiro lançamento",
+            occurrences: "Quantidade"
+        };
+
+        const messages = Object.entries(data).map(([field, errors]) => {
+            const text = Array.isArray(errors) ? errors.join(" ") : String(errors);
+            const label = labels[field];
+            return label ? `${label}: ${text}` : text;
+        });
+
+        return messages.join(" | ") || fallback;
+    }
+
+    function showMessage(message) {
+        const row = document.createElement("tr");
+        const cell = createElement("td", "p-6 text-center text-base-content/60", message);
+        cell.colSpan = 8;
+        row.append(cell);
+        el.desktop.replaceChildren(row);
+        el.mobile.replaceChildren(createElement("p", "p-6 text-center text-base-content/60", message));
+    }
+
+    /* ---------- Renderização ---------- */
+
+    function createToggle(item) {
+        const toggle = createElement("input", "toggle toggle-success toggle-sm");
+        toggle.type = "checkbox";
+        toggle.checked = item.is_active;
+        toggle.disabled = isFinished(item);
+        toggle.setAttribute("aria-label", `Ativar ou pausar ${item.title}`);
+        toggle.addEventListener("change", () => toggleActive(item, toggle));
+        return toggle;
+    }
+
+    function createActions(item) {
+        const wrapper = createElement("div", "flex justify-end gap-1");
+
+        const edit = createElement("button", "btn btn-ghost btn-xs", "Editar");
+        edit.type = "button";
+        edit.addEventListener("click", () => openEdit(item));
+
+        const remove = createElement("button", "btn btn-ghost btn-xs text-error", "Excluir");
+        remove.type = "button";
+        remove.addEventListener("click", () => openDelete(item));
+
+        wrapper.append(edit, remove);
+        return wrapper;
+    }
+
+    function createProgress(item) {
+        const wrapper = createElement("div", "flex flex-col gap-1 min-w-24");
+        wrapper.append(createElement(
+            "span", "text-xs text-base-content/70",
+            `${item.generated_occurrences} de ${item.occurrences}`
+        ));
+        const bar = createElement("progress", "progress progress-primary w-24");
+        bar.max = item.occurrences;
+        bar.value = item.generated_occurrences;
+        wrapper.append(bar);
+        return wrapper;
+    }
+
+    function createRow(item) {
+        const type = getType(item);
+        const row = document.createElement("tr");
+        if (!item.is_active) row.classList.add("opacity-60");
+
+        const title = document.createElement("td");
+        title.append(createElement("div", "font-semibold", item.title));
+        if (item.description) {
+            title.append(createElement("div", "text-xs text-base-content/50", item.description));
+        }
+
+        const category = document.createElement("td");
+        category.append(createElement("span", "badge badge-ghost badge-sm", getCategory(item)));
+
+        const nextDate = createElement("td", "", isFinished(item) ? "Concluída" : formatDate(item.next_date));
+
+        const progress = document.createElement("td");
+        progress.append(createProgress(item));
+
+        const amount = createElement(
+            "td", `text-right font-semibold ${type.text}`,
+            `${type.sign}${formatCurrency(item.amount)}`
+        );
+
+        const active = document.createElement("td");
+        active.append(createToggle(item));
+
+        const actions = document.createElement("td");
+        actions.append(createActions(item));
+
+        row.append(
+            title, category, createElement("td", "", formatRecurrence(item)),
+            nextDate, progress, amount, active, actions
+        );
+        return row;
+    }
+
+    function createCard(item) {
+        const type = getType(item);
+        const article = createElement("article", `p-4 ${item.is_active ? "" : "opacity-60"}`);
+
+        const top = createElement("div", "flex justify-between items-start gap-3");
+        const details = createElement("div", "min-w-0");
+        details.append(createElement("h3", "font-semibold break-words", item.title));
+
+        const meta = createElement("div", "flex items-center gap-2 mt-1 flex-wrap");
+        meta.append(
+            createElement("span", "badge badge-ghost badge-xs", getCategory(item)),
+            createElement("span", "text-xs text-base-content/50", formatRecurrence(item))
+        );
+        details.append(meta);
+
+        const values = createElement("div", "text-right shrink-0");
+        values.append(
+            createElement("span", `badge ${type.badge} badge-outline`, type.label),
+            createElement("p", `font-bold mt-2 ${type.text}`, `${type.sign}${formatCurrency(item.amount)}`)
+        );
+        top.append(details, values);
+
+        const middle = createElement("div", "flex items-center justify-between mt-3 gap-3");
+        const next = createElement(
+            "span", "text-xs text-base-content/60",
+            isFinished(item) ? "Concluída" : `Próximo: ${formatDate(item.next_date)}`
+        );
+        middle.append(next, createProgress(item));
+
+        const bottom = createElement("div", "flex items-center justify-between mt-3");
+        const toggleWrap = createElement("label", "flex items-center gap-2 text-xs text-base-content/70");
+        toggleWrap.append(createToggle(item), document.createTextNode("Ativa"));
+        bottom.append(toggleWrap, createActions(item));
+
+        article.append(top, middle, bottom);
+        return article;
+    }
+
+    function render() {
+        if (!items.length) {
+            el.summary.textContent = "Nenhuma transação fixa cadastrada.";
+            showMessage("Você ainda não tem transações fixas. Clique em “Nova transação fixa” para começar.");
+            return;
+        }
+
+        const active = items.filter(item => item.is_active && !isFinished(item)).length;
+        el.summary.textContent = `${items.length} cadastradas · ${active} ativas`;
+
+        const desktop = document.createDocumentFragment();
+        const mobile = document.createDocumentFragment();
+        items.forEach(item => {
+            desktop.append(createRow(item));
+            mobile.append(createCard(item));
+        });
+        el.desktop.replaceChildren(desktop);
+        el.mobile.replaceChildren(mobile);
+    }
+
+    /* ---------- Carregar ---------- */
+
+    async function loadItems() {
+        try {
+            const response = await api(FIXED_URL);
+            if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+
+            const data = await response.json();
+            items = Array.isArray(data) ? data : data.results;
+            if (!Array.isArray(items)) throw new Error("Formato de resposta inválido.");
+
+            render();
+        } catch (error) {
+            console.error("Erro ao carregar transações fixas:", error);
+            el.summary.textContent = "Erro ao carregar dados.";
+            showMessage("Não foi possível carregar as transações fixas.");
+        }
+    }
+
+    /* ---------- Ativar / pausar ---------- */
+
+    async function toggleActive(item, toggle) {
+        toggle.disabled = true;
+        try {
+            const response = await api(`${FIXED_URL}${item.id}/`, {
+                method: "PATCH",
+                body: JSON.stringify({ is_active: toggle.checked })
+            });
+            if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+        } catch (error) {
+            console.error("Erro ao atualizar status:", error);
+            alert("Não foi possível alterar o status da transação.");
+        } finally {
+            await loadItems();
+        }
+    }
+
+    /* ---------- Formulário ---------- */
+
+    function populateCategories(type, selected = "") {
+        const keys = CATEGORIES_BY_TYPE[type] || [];
+        const fragment = document.createDocumentFragment();
+
+        const placeholder = createElement("option", "", keys.length ? "Selecione a categoria" : "Selecione o tipo primeiro");
+        placeholder.value = "";
+        placeholder.disabled = true;
+        placeholder.selected = !selected;
+        fragment.append(placeholder);
+
+        keys.forEach(key => {
+            const option = createElement("option", "", CATEGORIES[key]);
+            option.value = key;
+            option.selected = key === selected;
+            fragment.append(option);
+        });
+
+        el.category.replaceChildren(fragment);
+        el.category.disabled = keys.length === 0;
+    }
+
+    function updateRecurrenceFields() {
+        const isInterval = el.recurrence.value === "interval";
+        el.wrapInterval.classList.toggle("hidden", !isInterval);
+        el.wrapDay.classList.toggle("hidden", isInterval);
+    }
+
+    function showFormError(message) {
+        el.formError.textContent = message;
+        el.formError.classList.remove("hidden");
+    }
+
+    function hideFormError() {
+        el.formError.textContent = "";
+        el.formError.classList.add("hidden");
+    }
+
+    function resetForm() {
+        el.form.reset();
+        editingId = null;
+        populateCategories("");
+        updateRecurrenceFields();
+        el.startDate.disabled = false;
+        el.startHint.classList.add("hidden");
+        hideFormError();
+    }
+
+    function openCreate() {
+        resetForm();
+        el.modalTitle.textContent = "Nova transação fixa";
+        el.submit.textContent = "Cadastrar";
+        el.startDate.value = new Date().toLocaleDateString("sv-SE"); // YYYY-MM-DD local
+        el.modal.showModal();
+    }
+
+    function openEdit(item) {
+        resetForm();
+        editingId = item.id;
+
+        el.modalTitle.textContent = "Editar transação fixa";
+        el.submit.textContent = "Salvar alterações";
+
+        el.form.title.value = item.title;
+        el.form.amount.value = item.amount;
+        el.form.type.value = item.type;
+        populateCategories(item.type, item.category);
+        el.form.recurrence_type.value = item.recurrence_type;
+        updateRecurrenceFields();
+        el.form.day_of_month.value = item.day_of_month ?? "";
+        el.form.interval_days.value = item.interval_days ?? "";
+        el.form.start_date.value = item.start_date;
+        el.form.occurrences.value = item.occurrences;
+        el.form.occurrences.min = Math.max(1, item.generated_occurrences);
+        el.form.description.value = item.description || "";
+
+        if (item.generated_occurrences > 0) {
+            el.startDate.disabled = true;
+            el.startHint.classList.remove("hidden");
+        }
+
+        el.modal.showModal();
+    }
+
+    el.btnNew.addEventListener("click", openCreate);
+    el.type.addEventListener("change", () => populateCategories(el.type.value));
+    el.recurrence.addEventListener("change", updateRecurrenceFields);
+    el.cancel.addEventListener("click", () => el.modal.close());
+    el.modal.addEventListener("close", () => {
+        resetForm();
+        el.form.occurrences.removeAttribute("min");
+        el.form.occurrences.min = 1;
+    });
+
+    function buildPayload() {
+        const data = new FormData(el.form);
+        const recurrence = data.get("recurrence_type");
+
+        const payload = {
+            title: data.get("title").trim(),
+            description: data.get("description").trim(),
+            amount: Number(data.get("amount")),
+            type: data.get("type"),
+            category: data.get("category"),
+            recurrence_type: recurrence,
+            occurrences: Number(data.get("occurrences"))
+        };
+
+        if (recurrence === "interval") {
+            payload.interval_days = Number(data.get("interval_days"));
+        } else {
+            payload.day_of_month = Number(data.get("day_of_month"));
+        }
+
+        // Campo desabilitado não entra no FormData, então lemos direto.
+        // No backend, start_date é ignorado se já houver lançamentos gerados.
+        payload.start_date = el.startDate.value;
+
+        return payload;
+    }
+
+    el.form.addEventListener("submit", async event => {
+        event.preventDefault();
+        hideFormError();
+
+        // Campos ocultos não devem bloquear a validação nativa
+        const hiddenInput = el.recurrence.value === "interval" ? el.form.day_of_month : el.form.interval_days;
+        const visibleInput = el.recurrence.value === "interval" ? el.form.interval_days : el.form.day_of_month;
+        hiddenInput.required = false;
+        visibleInput.required = true;
+
+        if (!el.form.checkValidity()) {
+            el.form.reportValidity();
+            return;
+        }
+
+        el.submit.disabled = true;
+        el.submit.classList.add("loading");
+
+        try {
+            const isEditing = editingId !== null;
+            const response = await api(
+                isEditing ? `${FIXED_URL}${editingId}/` : `${FIXED_URL}create/`,
+                { method: isEditing ? "PUT" : "POST", body: JSON.stringify(buildPayload()) }
+            );
+
+            if (!response.ok) {
+                showFormError(parseApiErrors(await readErrors(response)));
+                return;
+            }
+
+            el.modal.close();
+            await loadItems();
+        } catch (error) {
+            console.error("Erro ao salvar transação fixa:", error);
+            showFormError("Erro de conexão com o servidor. Tente novamente.");
+        } finally {
+            el.submit.disabled = false;
+            el.submit.classList.remove("loading");
+        }
+    });
+
+    /* ---------- Exclusão ---------- */
+
+    function openDelete(item) {
+        deletingItem = item;
+        el.deleteText.textContent = `“${item.title}” (${formatCurrency(item.amount)}, ${formatRecurrence(item).toLowerCase()}) deixará de ser gerada.`;
+        el.deleteModal.showModal();
+    }
+
+    el.deleteCancel.addEventListener("click", () => el.deleteModal.close());
+
+    el.deleteConfirm.addEventListener("click", async () => {
+        if (!deletingItem) return;
+
+        el.deleteConfirm.disabled = true;
+        try {
+            const response = await api(`${FIXED_URL}${deletingItem.id}/`, { method: "DELETE" });
+            if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+
+            el.deleteModal.close();
+            deletingItem = null;
+            await loadItems();
+        } catch (error) {
+            console.error("Erro ao excluir:", error);
+            alert("Não foi possível excluir a transação fixa.");
+        } finally {
+            el.deleteConfirm.disabled = false;
+        }
+    });
+
+    /* ---------- Inicialização ---------- */
+
+    loadItems();
+</script>
+{% endblock %}
