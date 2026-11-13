@@ -260,178 +260,184 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
   Widget build(BuildContext context) {
     final txProvider = context.watch<TransactionProvider>();
 
-    return SafeArea(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                widget.transaction == null
-                    ? 'Nova transação'
-                    : 'Editar transação',
-                style: const TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.textPrimary,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                widget.transaction == null
-                    ? 'Registre uma entrada ou saída'
-                    : 'Atualize os dados da transação',
-                style: const TextStyle(
-                    fontSize: 14, color: AppColors.textSecondary),
-              ),
-              const SizedBox(height: 28),
-
-              // Tipo: Entrada / Saída
-              const Text(
-                'Tipo',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: _TypeButton(
-                      label: 'Entrada',
-                      icon: Icons.arrow_downward_rounded,
-                      selected: _type == 'credit',
-                      color: AppColors.income,
-                      onTap: () => _setType('credit'),
-                    ),
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.transaction == null
+                      ? 'Nova transação'
+                      : 'Editar transação',
+                  style: const TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.textPrimary,
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _TypeButton(
-                      label: 'Saída',
-                      icon: Icons.arrow_upward_rounded,
-                      selected: _type == 'debit',
-                      color: AppColors.expense,
-                      onTap: () => _setType('debit'),
-                    ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  widget.transaction == null
+                      ? 'Registre uma entrada ou saída'
+                      : 'Atualize os dados da transação',
+                  style: const TextStyle(
+                      fontSize: 14, color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: 28),
+
+                // Tipo: Entrada / Saída
+                const Text(
+                  'Tipo',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textPrimary,
                   ),
-                ],
-              ),
-              const SizedBox(height: 24),
-
-              CustomTextField(
-                controller: _titleController,
-                label: 'Título',
-                hint: 'Ex: Salário, Mercado, Uber...',
-                prefixIcon: Icons.title_rounded,
-                validator: (v) {
-                  if (v == null || v.trim().isEmpty) return 'Informe um título';
-                  return null;
-                },
-              ),
-              const SizedBox(height: 18),
-
-              CustomTextField(
-                controller: _amountController,
-                label: 'Valor',
-                hint: '0,00',
-                keyboardType: const TextInputType.numberWithOptions(
-                  decimal: true,
                 ),
-                prefixIcon: Icons.attach_money_rounded,
-                validator: (v) {
-                  if (v == null || v.trim().isEmpty) return 'Informe o valor';
-                  return null;
-                },
-              ),
-              const SizedBox(height: 18),
-
-              CustomTextField(
-                controller: _descriptionController,
-                label: 'Descrição (opcional)',
-                hint: 'Detalhes adicionais...',
-                prefixIcon: Icons.notes_rounded,
-                maxLines: 2,
-              ),
-              const SizedBox(height: 24),
-
-              const Text(
-                'Categoria',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary,
-                ),
-              ),
-              const SizedBox(height: 12),
-              Wrap(
-                spacing: 10,
-                runSpacing: 10,
-                children: _visibleCategories.map((cat) {
-                  final selected = _category == cat['value'];
-                  return GestureDetector(
-                    onTap: () => setState(() => _category = cat['value']),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 10,
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _TypeButton(
+                        label: 'Entrada',
+                        icon: Icons.arrow_downward_rounded,
+                        selected: _type == 'credit',
+                        color: AppColors.income,
+                        onTap: () => _setType('credit'),
                       ),
-                      decoration: BoxDecoration(
-                        color: selected
-                            ? AppColors.primary.withValues(alpha: 0.12)
-                            : Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: selected
-                              ? AppColors.primary
-                              : Colors.grey.shade200,
-                          width: selected ? 1.5 : 1,
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: _TypeButton(
+                        label: 'Saída',
+                        icon: Icons.arrow_upward_rounded,
+                        selected: _type == 'debit',
+                        color: AppColors.expense,
+                        onTap: () => _setType('debit'),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+
+                CustomTextField(
+                  controller: _titleController,
+                  label: 'Título',
+                  hint: 'Ex: Salário, Mercado, Uber...',
+                  prefixIcon: Icons.title_rounded,
+                  validator: (v) {
+                    if (v == null || v.trim().isEmpty) {
+                      return 'Informe um título';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 18),
+
+                CustomTextField(
+                  controller: _amountController,
+                  label: 'Valor',
+                  hint: '0,00',
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
+                  prefixIcon: Icons.attach_money_rounded,
+                  validator: (v) {
+                    if (v == null || v.trim().isEmpty) return 'Informe o valor';
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 18),
+
+                CustomTextField(
+                  controller: _descriptionController,
+                  label: 'Descrição (opcional)',
+                  hint: 'Detalhes adicionais...',
+                  prefixIcon: Icons.notes_rounded,
+                  maxLines: 2,
+                ),
+                const SizedBox(height: 24),
+
+                const Text(
+                  'Categoria',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: _visibleCategories.map((cat) {
+                    final selected = _category == cat['value'];
+                    return GestureDetector(
+                      onTap: () => setState(() => _category = cat['value']),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 10,
                         ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            cat['icon'] as IconData,
-                            size: 18,
+                        decoration: BoxDecoration(
+                          color: selected
+                              ? AppColors.primary.withValues(alpha: 0.12)
+                              : Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
                             color: selected
                                 ? AppColors.primary
-                                : AppColors.textSecondary,
+                                : Colors.grey.shade200,
+                            width: selected ? 1.5 : 1,
                           ),
-                          const SizedBox(width: 6),
-                          Text(
-                            cat['label'] as String,
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight:
-                                  selected ? FontWeight.w600 : FontWeight.w500,
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              cat['icon'] as IconData,
+                              size: 18,
                               color: selected
                                   ? AppColors.primary
                                   : AppColors.textSecondary,
                             ),
-                          ),
-                        ],
+                            const SizedBox(width: 6),
+                            Text(
+                              cat['label'] as String,
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: selected
+                                    ? FontWeight.w600
+                                    : FontWeight.w500,
+                                color: selected
+                                    ? AppColors.primary
+                                    : AppColors.textSecondary,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                }).toList(),
-              ),
-              const SizedBox(height: 36),
+                    );
+                  }).toList(),
+                ),
+                const SizedBox(height: 36),
 
-              CustomButton(
-                text: widget.transaction == null
-                    ? 'Adicionar transação'
-                    : 'Salvar alterações',
-                isLoading: txProvider.isLoading,
-                onPressed: _submit,
-                icon: Icons.check_rounded,
-              ),
-            ],
+                CustomButton(
+                  text: widget.transaction == null
+                      ? 'Adicionar transação'
+                      : 'Salvar alterações',
+                  isLoading: txProvider.isLoading,
+                  onPressed: _submit,
+                  icon: Icons.check_rounded,
+                ),
+              ],
+            ),
           ),
         ),
       ),

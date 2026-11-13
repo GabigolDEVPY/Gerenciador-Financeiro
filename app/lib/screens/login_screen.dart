@@ -70,14 +70,10 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Logo / Icon
                   Container(
-                    width: 80,
-                    height: 80,
+                    width: 96,
+                    height: 96,
                     decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [AppColors.primary, AppColors.primaryDark],
-                      ),
                       borderRadius: BorderRadius.circular(24),
                       boxShadow: [
                         BoxShadow(
@@ -87,10 +83,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ],
                     ),
-                    child: const Icon(
-                      Icons.account_balance_wallet_rounded,
-                      color: Colors.white,
-                      size: 40,
+                    clipBehavior: Clip.antiAlias,
+                    child: Image.asset(
+                      'assets/fincontrol_logo.png',
+                      fit: BoxFit.cover,
                     ),
                   ),
                   const SizedBox(height: 28),
@@ -112,7 +108,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 40),
-
                   CustomTextField(
                     controller: _usernameController,
                     label: 'Usuário',
@@ -126,7 +121,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                   ),
                   const SizedBox(height: 20),
-
                   CustomTextField(
                     controller: _passwordController,
                     label: 'Senha',
@@ -151,7 +145,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                   ),
                   const SizedBox(height: 32),
-
                   CustomButton(
                     text: 'Entrar',
                     isLoading: auth.isLoading,
@@ -159,7 +152,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     icon: Icons.login_rounded,
                   ),
                   const SizedBox(height: 20),
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

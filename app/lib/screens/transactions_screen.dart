@@ -136,21 +136,21 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-            child: Row(
+            child: Wrap(
+              spacing: 8,
+              runSpacing: 8,
               children: [
                 _FilterChip(
                   label: 'Todas',
                   selected: _filter == 'all',
                   onTap: () => setState(() => _filter = 'all'),
                 ),
-                const SizedBox(width: 8),
                 _FilterChip(
                   label: 'Entradas',
                   selected: _filter == 'credit',
                   color: AppColors.income,
                   onTap: () => setState(() => _filter = 'credit'),
                 ),
-                const SizedBox(width: 8),
                 _FilterChip(
                   label: 'Saídas',
                   selected: _filter == 'debit',
@@ -306,33 +306,33 @@ class _FilterChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final activeColor = color ?? AppColors.primary;
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: selected ? activeColor : Colors.white,
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: 'Filtrar: $label',
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: selected ? activeColor : Colors.grey.shade200,
-          ),
-          boxShadow: selected
-              ? [
-                  BoxShadow(
-                    color: activeColor.withValues(alpha: 0.25),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
-                  ),
-                ]
-              : null,
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
-            color: selected ? Colors.white : AppColors.textSecondary,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              color: selected ? activeColor : AppColors.card,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: selected ? activeColor : const Color(0xFFCBD5E1),
+              ),
+            ),
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: selected ? Colors.white : AppColors.textPrimary,
+              ),
+            ),
           ),
         ),
       ),

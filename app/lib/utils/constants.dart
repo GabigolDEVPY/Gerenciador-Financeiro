@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppConstants {
-  // Altere para o IP da sua máquina se estiver testando em dispositivo físico
-  // Emulador Android: 10.0.2.2
-  // iOS Simulator / Web / Desktop: 127.0.0.1
-  static const String baseUrl = 'http://127.0.0.1:8000';
+  static const String baseUrl = 'https://gabigolbr38.pythonanywhere.com';
 
   static const String loginEndpoint = '/account/api/auth/login/';
   static const String registerEndpoint = '/account/api/auth/register/';

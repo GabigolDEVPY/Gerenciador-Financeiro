@@ -41,18 +41,20 @@ lib/
 
 ## Como rodar
 
-1. Certifique-se de que a API está rodando em `http://127.0.0.1:8000`
+Este projeto Flutter está configurado somente para Android. As outras plataformas
+(iOS, web, Windows, Linux e macOS) não fazem parte do app.
+
+1. Certifique-se de que a API está acessível pelo dispositivo Android.
 
 2. Ajuste a URL base se necessário em `lib/utils/constants.dart`:
-   - **Emulador Android**: `http://10.0.2.2:8000`
-   - **iOS Simulator / Desktop / Web**: `http://127.0.0.1:8000`
-   - **Dispositivo físico**: use o IP da sua máquina na rede (ex: `http://192.168.1.10:8000`)
+   - **Emulador Android**: use o endereço da API acessível pelo emulador.
+   - **Dispositivo físico**: use o IP da máquina que hospeda a API na rede.
 
-3. Instale as dependências e rode:
+3. Instale as dependências e rode no Android:
 
 ```bash
 flutter pub get
-flutter run
+flutter run -d <id-do-dispositivo-android>
 ```
 
 ## Funcionalidades
