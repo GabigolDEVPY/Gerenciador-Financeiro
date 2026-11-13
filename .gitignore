@@ -6,6 +6,11 @@ app
 ./app
 /app
 .app
+!/app/
+/app/*
+!/app/assets/
+/app/assets/*
+!/app/assets/fincontrol_logo.png
 
 
 

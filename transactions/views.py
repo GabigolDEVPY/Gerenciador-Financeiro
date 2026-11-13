@@ -9,8 +9,6 @@ from rest_framework.pagination import PageNumberPagination
 from .models import Transaction
 from django.utils.dateparse import parse_date
 from django.db.models import Q
-from rest_framework.generics import CreateAPIView
-from rest_framework.permissions import IsAuthenticated
 from .serializers import FixedTransactionSerializer
 from transactions.fixed_transactions_services import process_due_fixed_transactions
 from rest_framework.generics import (
@@ -18,10 +16,7 @@ from rest_framework.generics import (
     ListAPIView,
     RetrieveUpdateDestroyAPIView,
 )
-from rest_framework.permissions import IsAuthenticated
- 
 from .models import FixedTransaction
-from .serializers import FixedTransactionSerializer
 
 
 
