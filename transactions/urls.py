@@ -21,7 +21,7 @@ urlpatterns = [
     path("api/add", AddTransactionView.as_view()),
     path("api/all", ReturnTransactionsSummaryView.as_view()),
     
-    
+    # page fixed transactions
     path("fixed-transactions/", TemplateView.as_view(template_name="fixed_transactions.html"),name="fixed_transactions_page",),
 
     # API Fixed transactions
