@@ -62,6 +62,7 @@ class Transaction(models.Model):
     type = models.CharField(max_length=6, choices=Type.choices, blank=True)
     created = models.DateTimeField(default=timezone.now)
 
+
     class Meta:
         ordering = ["amount", "type"]
         indexes = [models.Index(fields=["owner", "type"], name="owner_type_idx")]
