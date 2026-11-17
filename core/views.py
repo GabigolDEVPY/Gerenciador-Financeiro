@@ -1,6 +1,6 @@
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from transactions.fixed_transactions_services import process_due_fixed_transactions
+from transactions.services.fixed_transactions_services import process_due_fixed_transactions
 
 
 class HomeViewTemplate(LoginRequiredMixin, TemplateView):

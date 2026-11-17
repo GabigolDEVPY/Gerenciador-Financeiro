@@ -4,7 +4,7 @@ from django.db import transaction as db_transaction
 from django.db.models import F
 from django.utils import timezone
 
-from .models import FixedTransaction, Transaction
+from ..models import FixedTransaction, Transaction
 
 
 def _occurrence_datetime(day):

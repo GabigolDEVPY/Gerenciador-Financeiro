@@ -1,4 +1,4 @@
-from .models import Transaction
+from ..models import Transaction
 from django.db.models import Sum, Q, Count, Value, DecimalField
 from django.utils import timezone
 from dateutil.relativedelta import relativedelta

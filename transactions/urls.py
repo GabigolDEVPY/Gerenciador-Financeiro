@@ -1,14 +1,16 @@
 from django.urls import path
-from .views import (
+from .views.api_views import (
     AddTransactionView, ReturnTransactionsSummaryView,
-    TransactionsViewTemplate, ReturnTransactionsView, TransactionDetailView,
+    ReturnTransactionsView, TransactionDetailView,
     CreateFixedTransactionView, ListFixedTransactionView, 
     FixedTransactionDetailView
     )
-
+from .views.views import TransactionsViewTemplate
 from django.views.generic import TemplateView
 
+
 app_name = "transactions"
+
 
 urlpatterns = [
     #templates routes
